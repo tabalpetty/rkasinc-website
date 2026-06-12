@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Squarespace Preview — RKAS Inc.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    /* === Preview notice (not part of the real Squarespace page) === */
+    .preview-notice {
+      background: #fff8e1;
+      border-bottom: 1px solid #f5d77a;
+      color: #6b5318;
+      padding: 12px 24px;
+      font-family: -apple-system, sans-serif;
+      font-size: 13px;
+      text-align: center;
+    }
+    .preview-notice strong { color: #4a3a0a; }
+
+    /* === Simulated Squarespace page chrome ===
+       This mimics a typical Squarespace "Brine"-family template:
+       white background, top nav, content area, footer.
+       Your actual Squarespace theme will differ in details (fonts,
+       colors, nav style) but the structure is the same. */
+    body {
+      margin: 0;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #ffffff;
+      color: #2d2d2d;
+    }
+
+    /* Squarespace-style top header */
+    .ss-header {
+      background: #ffffff;
+      border-bottom: 1px solid #ececec;
+      padding: 20px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 1280px;
+      margin: 0 auto;
+    }
+    .ss-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 22px;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      color: #1a1a1a;
+      text-decoration: none;
+    }
+    .ss-brand-mark {
+      width: 32px;
+      height: 32px;
+      border-radius: 4px;
+      object-fit: contain;
+    }
+    .ss-nav {
+      display: flex;
+      gap: 32px;
+    }
+    .ss-nav a {
+      color: #555;
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+    .ss-nav a:hover { color: #1a1a1a; }
+
+    /* Squarespace-style page content area */
+    .ss-page {
+      background: #fafaf7;
+      min-height: 70vh;
+      padding: 60px 24px;
+    }
+
+    /* The "Section" container Squarespace wraps blocks in */
+    .ss-section {
+      max-width: 960px;
+      margin: 0 auto;
+    }
+
+    /* Annotation showing where the Code Block lives */
+    .codeblock-marker {
+      max-width: 720px;
+      margin: 0 auto 12px;
+      font-family: -apple-system, sans-serif;
+      font-size: 11px;
+      color: #999;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      text-align: center;
+    }
+    .codeblock-marker .arrow { color: #c8c8c8; }
+
+    /* Squarespace-style footer */
+    .ss-footer {
+      background: #1a1a1a;
+      color: #999;
+      padding: 48px 40px 32px;
+      text-align: center;
+      font-size: 13px;
+    }
+    .ss-footer-brand {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 18px;
+      color: #fff;
+      margin-bottom: 8px;
+    }
+    .ss-footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      margin: 16px 0;
+    }
+    .ss-footer-links a {
+      color: #aaa;
+      text-decoration: none;
+      font-size: 12px;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+    .ss-footer-copyright {
+      margin-top: 16px;
+      font-size: 11px;
+      color: #666;
+    }
+
+    @media (max-width: 700px) {
+      .ss-header { padding: 16px 20px; flex-wrap: wrap; gap: 12px; }
+      .ss-nav { gap: 16px; }
+      .ss-page { padding: 32px 16px; }
+    }
+
+    /* ====================================================================
+       === BELOW: the actual content that goes into the Code Block. ===
+       === Everything inside .rkas-block is what you paste. =============
+       ==================================================================== */
+
+    .rkas-block {
+      --rkas-bg: #0a0f0d;
+      --rkas-bg-deep: #060807;
+      --rkas-surface: #141a17;
+      --rkas-border: rgba(240, 242, 239, 0.08);
+      --rkas-border-strong: rgba(240, 242, 239, 0.16);
+      --rkas-chalk: #f0f2ef;
+      --rkas-text: #d4d8d2;
+      --rkas-muted: #8a918a;
+      --rkas-muted-soft: #6a716a;
+      --rkas-orange: #e8892c;
+      --rkas-orange-bright: #f59e3b;
+      --rkas-orange-glow: rgba(232, 137, 44, 0.5);
+
+      box-sizing: border-box;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      color: var(--rkas-text);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      line-height: 1.5;
+
+      max-width: 720px;
+      margin: 24px auto;
+      padding: 48px 44px;
+      background: linear-gradient(180deg, var(--rkas-surface) 0%, var(--rkas-bg-deep) 100%);
+      border: 1px solid var(--rkas-border);
+      border-radius: 18px;
+      box-shadow:
+        0 30px 80px rgba(0, 0, 0, 0.25),
+        0 0 0 1px rgba(232, 137, 44, 0.08),
+        inset 0 1px 0 rgba(232, 137, 44, 0.15);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .rkas-block *,
+    .rkas-block *::before,
+    .rkas-block *::after {
+      box-sizing: border-box;
+    }
+
+    .rkas-block::before {
+      content: '';
+      position: absolute;
+      inset: -50% -20% auto -20%;
+      height: 80%;
+      background: radial-gradient(ellipse at 50% 0%, rgba(232, 137, 44, 0.15), transparent 60%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .rkas-block > * { position: relative; z-index: 1; }
+
+    .rkas-block .hero { text-align: center; margin-bottom: 36px; }
+    .rkas-block .logo-wrap { display: inline-block; position: relative; margin-bottom: 24px; }
+    .rkas-block .logo-wrap::before {
+      content: '';
+      position: absolute;
+      inset: -25%;
+      background: radial-gradient(circle, var(--rkas-orange-glow), transparent 60%);
+      filter: blur(18px);
+      z-index: 0;
+      opacity: 0.7;
+    }
+    .rkas-block .logo {
+      position: relative;
+      width: 88px;
+      height: 88px;
+      object-fit: contain;
+      z-index: 1;
+      filter: drop-shadow(0 0 30px var(--rkas-orange-glow));
+      display: block;
+    }
+    .rkas-block .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--rkas-orange-bright);
+      background: rgba(232, 137, 44, 0.1);
+      border: 1px solid rgba(232, 137, 44, 0.25);
+      padding: 6px 14px;
+      border-radius: 999px;
+      margin-bottom: 20px;
+    }
+    .rkas-block .pulse-dot {
+      display: inline-block;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--rkas-orange);
+      box-shadow: 0 0 10px var(--rkas-orange-glow);
+      animation: rkas-pulse 2s ease-in-out infinite;
+    }
+    @keyframes rkas-pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(0.8); }
+    }
+    .rkas-block .headline {
+      font-size: clamp(28px, 4.5vw, 44px);
+      font-weight: 700;
+      letter-spacing: -0.025em;
+      color: var(--rkas-chalk);
+      margin: 0 0 16px;
+      line-height: 1.1;
+    }
+    .rkas-block .accent {
+      background: linear-gradient(135deg, var(--rkas-orange) 0%, var(--rkas-orange-bright) 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      color: transparent;
+    }
+    .rkas-block .subhead {
+      font-size: 16px;
+      color: var(--rkas-muted);
+      margin: 0 auto;
+      max-width: 480px;
+      line-height: 1.6;
+    }
+    .rkas-block .expertise {
+      margin-top: 28px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 8px;
+    }
+    .rkas-block .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 13px;
+      border: 1px solid var(--rkas-border-strong);
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--rkas-text);
+      background: rgba(10, 15, 13, 0.5);
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .rkas-block .pill::before {
+      content: '';
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: var(--rkas-orange);
+      box-shadow: 0 0 6px var(--rkas-orange-glow);
+    }
+    .rkas-block .pill:hover {
+      border-color: rgba(232, 137, 44, 0.4);
+      color: var(--rkas-chalk);
+    }
+    .rkas-block .divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--rkas-border-strong), transparent);
+      margin: 40px 0 32px;
+    }
+    .rkas-block .contact-header { margin-bottom: 24px; }
+    .rkas-block .contact-title {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--rkas-chalk);
+      margin: 0 0 6px;
+      letter-spacing: -0.01em;
+    }
+    .rkas-block .contact-sub {
+      color: var(--rkas-muted);
+      margin: 0;
+      font-size: 14px;
+    }
+    .rkas-block .form { display: flex; flex-direction: column; gap: 16px; }
+    .rkas-block .field { display: flex; flex-direction: column; gap: 6px; }
+    .rkas-block .field label {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--rkas-text);
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+    .rkas-block .field label .req { color: var(--rkas-orange); margin-left: 2px; }
+    .rkas-block .field input,
+    .rkas-block .field textarea {
+      font-family: inherit;
+      font-size: 15px;
+      color: var(--rkas-chalk);
+      padding: 12px 14px;
+      border: 1px solid var(--rkas-border-strong);
+      border-radius: 10px;
+      background: rgba(6, 8, 7, 0.6);
+      transition: border-color 0.18s, box-shadow 0.18s, background 0.18s;
+      width: 100%;
+      line-height: 1.5;
+    }
+    .rkas-block .field input::placeholder,
+    .rkas-block .field textarea::placeholder { color: var(--rkas-muted-soft); }
+    .rkas-block .field textarea {
+      resize: vertical;
+      min-height: 110px;
+      font-family: inherit;
+    }
+    .rkas-block .field input:focus,
+    .rkas-block .field textarea:focus {
+      outline: none;
+      border-color: var(--rkas-orange);
+      background: rgba(6, 8, 7, 0.9);
+      box-shadow: 0 0 0 3px rgba(232, 137, 44, 0.18);
+    }
+    .rkas-block .submit {
+      margin-top: 6px;
+      padding: 14px 24px;
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: #0a0f0d;
+      background: linear-gradient(135deg, var(--rkas-orange) 0%, var(--rkas-orange-bright) 100%);
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: filter 0.2s, box-shadow 0.2s, transform 0.1s;
+      box-shadow: 0 8px 24px rgba(232, 137, 44, 0.22);
+    }
+    .rkas-block .submit:hover {
+      filter: brightness(1.08);
+      box-shadow: 0 12px 32px rgba(232, 137, 44, 0.36);
+    }
+    .rkas-block .submit:active { transform: translateY(1px); }
+    @media (max-width: 600px) {
+      .rkas-block { padding: 32px 22px; margin: 16px auto; border-radius: 14px; }
+      .rkas-block .logo { width: 72px; height: 72px; }
+      .rkas-block .divider { margin: 32px 0 24px; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Yellow strip — preview only, NOT part of the real site -->
+  <div class="preview-notice">
+    <strong>Preview only.</strong> The white header, gray page background, and dark footer below are a <em>simulation</em> of generic Squarespace chrome. Your actual Squarespace theme will provide its own. The dark card in the middle is what you'd paste into a Code Block.
+  </div>
+
+  <!-- Simulated Squarespace top nav -->
+  <header class="ss-header">
+    <a class="ss-brand" href="#">
+      <img src="assets/logo.jpg" alt="" class="ss-brand-mark" />
+      RKAS Inc.
+    </a>
+    <nav class="ss-nav">
+      <a href="#">Home</a>
+      <a href="#">About</a>
+      <a href="#">Services</a>
+      <a href="#">Contact</a>
+    </nav>
+  </header>
+
+  <!-- Simulated Squarespace page body -->
+  <main class="ss-page">
+    <div class="ss-section">
+      <div class="codeblock-marker">↓ Code Block starts here ↓</div>
+
+      <!-- ============================================================
+           This is the Code Block content. Everything inside .rkas-block
+           is what you would paste into Squarespace.
+           ============================================================ -->
+      <div class="rkas-block">
+        <div class="hero">
+          <div class="logo-wrap">
+            <img src="assets/logo.jpg" alt="RKAS Inc." class="logo" />
+          </div>
+          <span class="eyebrow"><span class="pulse-dot"></span>Coming Soon</span>
+          <h2 class="headline">Something new is <span class="accent">taking shape</span></h2>
+          <p class="subhead">We're building the next chapter of RKAS Inc. Check back soon — or reach out below and we'll be in touch.</p>
+          <div class="expertise" aria-label="Areas of expertise">
+            <span class="pill">Enterprise Architecture</span>
+            <span class="pill">Artificial Intelligence</span>
+            <span class="pill">Machine Learning</span>
+            <span class="pill">Data</span>
+            <span class="pill">Security</span>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="contact-header">
+          <h3 class="contact-title">Get in touch</h3>
+          <p class="contact-sub">Send us a message and we'll respond as soon as we can.</p>
+        </div>
+
+        <form class="form" action="YOUR_FORM_ENDPOINT" method="POST" novalidate>
+          <input type="hidden" name="_subject" value="New contact from rkasinc.com" />
+          <input type="hidden" name="_template" value="table" />
+          <input type="hidden" name="_captcha" value="true" />
+          <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off" />
+
+          <div class="field">
+            <label for="rkas-name">Name<span class="req">*</span></label>
+            <input id="rkas-name" type="text" name="name" placeholder="Your name" required autocomplete="name" />
+          </div>
+
+          <div class="field">
+            <label for="rkas-email">Email<span class="req">*</span></label>
+            <input id="rkas-email" type="email" name="email" placeholder="you@example.com" required autocomplete="email" />
+          </div>
+
+          <div class="field">
+            <label for="rkas-phone">Phone</label>
+            <input id="rkas-phone" type="tel" name="phone" placeholder="(555) 123-4567" autocomplete="tel" />
+          </div>
+
+          <div class="field">
+            <label for="rkas-message">Message<span class="req">*</span></label>
+            <textarea id="rkas-message" name="message" placeholder="Tell us about your project..." required></textarea>
+          </div>
+
+          <button class="submit" type="submit">Send message</button>
+        </form>
+      </div>
+      <!-- ============================================================
+           End Code Block content
+           ============================================================ -->
+
+      <div class="codeblock-marker"><span class="arrow">↑</span> Code Block ends here <span class="arrow">↑</span></div>
+    </div>
+  </main>
+
+  <!-- Simulated Squarespace footer -->
+  <footer class="ss-footer">
+    <div class="ss-footer-brand">RKAS Inc.</div>
+    <div class="ss-footer-links">
+      <a href="#">Home</a>
+      <a href="#">About</a>
+      <a href="#">Services</a>
+      <a href="#">Contact</a>
+    </div>
+    <div class="ss-footer-copyright">&copy; 2026 RKAS Inc. — Powered by Squarespace</div>
+  </footer>
+</body>
+</html>

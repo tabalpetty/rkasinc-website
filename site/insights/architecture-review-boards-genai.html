@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Traditional Architecture Review Boards were built for deterministic systems. GenAI breaks their assumptions. Here is how to extend enterprise governance into AI without killing delivery velocity." />
+  <meta name="robots" content="index, follow" />
+  <meta name="theme-color" content="#0a0f0d" />
+  <title>Architecture Review Boards for GenAI — RKAS Inc.</title>
+  <link rel="icon" type="image/jpeg" href="../assets/logo.jpg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../assets/insights.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <nav class="nav">
+        <a class="nav-left" href="../index.html">
+          <img src="../assets/logo.jpg" alt="" class="nav-logo" />
+          <span class="nav-name">RKAS Inc.</span>
+        </a>
+        <ul class="nav-links">
+          <li><a href="../index.html#services">Services</a></li>
+          <li><a href="../index.html#accelerators">Accelerators</a></li>
+          <li><a href="../index.html#insights">Insights</a></li>
+          <li><a href="../index.html#contact" class="nav-cta">Request Strategy Briefing</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <article class="article">
+    <div class="container">
+      <div class="article-wrap">
+        <div class="breadcrumb"><a href="../index.html">Home</a> &nbsp;/&nbsp; <a href="../index.html#insights">Insights</a> &nbsp;/&nbsp; Architecture Review Boards for GenAI</div>
+        <div class="article-category">AI Governance</div>
+        <h1>Architecture Review Boards for GenAI</h1>
+        <p class="article-dek">The ARB is one of the enterprise's oldest governance instruments. GenAI quietly invalidates three of its core assumptions. Extending it — rather than bypassing it — is how mature organizations adopt AI without losing control.</p>
+        <div class="article-meta">
+          <span><strong>RKAS Inc. Architecture Practice</strong></span>
+          <span class="dot"></span>
+          <span>March 2026</span>
+          <span class="dot"></span>
+          <span>9 min read</span>
+        </div>
+
+        <div class="prose">
+          <p>The Architecture Review Board exists to answer one question before a system reaches production: <em>can we operate this safely?</em> For deterministic software, the ARB has a mature playbook — data flows, failure modes, security boundaries, scalability, cost. That playbook has worked for decades because the systems under review share a property: given the same input, they produce the same output, and that output is knowable in advance.</p>
+          <p>Generative AI breaks that property. And because it breaks it quietly — the system still compiles, still passes its tests, still demos beautifully — many organizations let AI workloads route around the ARB entirely, or wave them through on a deterministic checklist that no longer fits. Both paths end in the same place: an ungoverned model making consequential decisions in production. The answer is neither to block AI nor to exempt it. It is to <strong>extend the board's mandate</strong> to cover what is genuinely new.</p>
+
+          <h2>Three assumptions GenAI invalidates</h2>
+          <p><strong>1. Determinism.</strong> The traditional ARB assumes that if a system is correct in test, it is correct in production. A model's behavior is distributional: it can be right 99% of the time and confidently wrong on the case that matters. "It passed QA" is no longer a sufficient claim.</p>
+          <p><strong>2. Stable behavior over time.</strong> Deterministic systems change only when their code changes. A model-backed system can change behavior when the <em>provider</em> updates the model underneath it — no code change, no deploy, no notification. The thing the board approved may not be the thing running next quarter.</p>
+          <p><strong>3. Inspectable logic.</strong> An ARB can read a decision tree. It cannot read 70 billion weights. The reasoning behind any given output is not available by inspecting the artifact. Without deliberate design, the system is a black box to the very people accountable for it.</p>
+
+          <h2>Extending the board's mandate</h2>
+          <p>Each invalidated assumption maps to a new review dimension. A GenAI-ready ARB adds the following to its existing remit:</p>
+
+          <h3>Grounding and evidence</h3>
+          <p>The first question for any AI system entering the data plane: <strong>can it show its work?</strong> Every consequential output must be tied to retrieved evidence and carry its provenance — model, prompt version, confidence. A system that cannot produce an evidence trail for its judgments is not ready, regardless of how good its outputs look. (We treat this as a hard gate; see <a href="grounding-beats-fluency.html">Grounding Beats Fluency</a>.)</p>
+
+          <h3>Human-in-the-loop placement</h3>
+          <p>Not every decision needs a human; some cannot tolerate full automation. The board's job is to locate the line. High-confidence, low-stakes outputs may auto-confirm. Low-confidence or high-stakes outputs route to a review queue. The placement of that threshold — and the auditability of what crosses it — is an architectural decision the ARB must own, not an implementation detail left to the team.</p>
+
+          <h3>Version pinning and drift</h3>
+          <p>The board should require that model IDs, prompt templates, and embedding versions are pinned and versioned as code — not floating references that change under the system. Paired with this is a <strong>drift monitor</strong>: a continuous evaluation against a labeled golden corpus that detects when behavior shifts, whether from a provider update or a prompt change. Approval is granted to a pinned, measured configuration, not to "the model, whatever it becomes."</p>
+
+          <h3>Evaluation as a release gate</h3>
+          <p>Deterministic systems gate releases on tests. AI systems gate on <strong>evaluation metrics against a golden corpus</strong> — recall, precision, exact-match on structured fields, agreement on classifications. A prompt or model change that regresses these metrics beyond a configured tolerance does not ship. This turns quality from a subjective review-meeting debate into an objective, automatable gate.</p>
+
+          <div class="callout">
+            <h4>The spear and the shield</h4>
+            <p>The board's role is not to slow AI down. It is to let the organization move fast precisely because the guardrails are real. We act as both the spear of innovation and the shield of governance — and in the enterprise, the shield is what lets the spear be thrown at all.</p>
+          </div>
+
+          <h2>A practical intake checklist</h2>
+          <p>For any AI system arriving at review, the board should be able to get a clear answer to each of these:</p>
+          <ul>
+            <li>What decisions does the model make, and what is the blast radius of each being wrong?</li>
+            <li>Is every consequential output grounded in retrievable evidence, with provenance persisted as data?</li>
+            <li>Where is the human-in-the-loop boundary, and how is the auto-confirm rate monitored?</li>
+            <li>Are the model, prompt, and embedding versions pinned and change-controlled?</li>
+            <li>What golden corpus gates releases, and who owns it?</li>
+            <li>How is prompt injection from untrusted content contained?</li>
+            <li>What is the per-feature cost ceiling, and what enforces it?</li>
+            <li>How does the system fail — loudly, with a typed error, or silently with a plausible answer?</li>
+          </ul>
+
+          <h2>Governance is the adoption accelerator</h2>
+          <p>The instinct to route AI around governance comes from treating the ARB as a brake. For deterministic systems run by mature teams, sometimes it is. For GenAI, it is the opposite: the absence of governance is exactly what keeps these systems stuck in pilot, unable to clear risk and compliance sign-off. An ARB that knows how to review AI is the mechanism that gets AI into production safely — and keeps it there as the models underneath keep moving.</p>
+        </div>
+
+        <div class="article-cta">
+          <h3>Extending governance into GenAI?</h3>
+          <p>We help enterprises stand up Architecture Review Boards and guardrails built for AI — so adoption accelerates instead of stalling. Let's talk.</p>
+          <a href="../index.html#contact" class="btn-primary">
+            Request a Strategy Briefing
+            <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </a>
+        </div>
+
+        <div class="read-next">
+          <h4>Read next</h4>
+          <div class="read-next-grid">
+            <a class="read-next-card" href="grounding-beats-fluency.html">
+              <span class="rn-cat">AI Governance</span>
+              <h5>Grounding Beats Fluency: The Enterprise AI Evidence Layer</h5>
+            </a>
+            <a class="read-next-card" href="fingerprinting-ledger-llm-cost.html">
+              <span class="rn-cat">Cost Architecture</span>
+              <h5>The Fingerprinting Ledger: Cutting Steady-State LLM Cost by ~95%</h5>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-bottom">
+        <span>&copy; <span id="year"></span> RKAS Inc. All rights reserved.</span>
+        <span><a href="../index.html">Back to home</a></span>
+      </div>
+    </div>
+  </footer>
+
+  <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+</body>
+</html>

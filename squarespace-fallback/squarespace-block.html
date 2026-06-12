@@ -1,0 +1,391 @@
+<!--
+  ============================================================
+  RKAS Inc. — Squarespace Code Block content
+  ============================================================
+  Paste EVERYTHING from <style> through </div> below into a single
+  Squarespace Code Block on a blank page.
+
+  Notes:
+  - All CSS is scoped under .rkas-block so it won't leak into the
+    rest of your Squarespace theme.
+  - No <script> tags (works on every Squarespace plan, including
+    Personal which strips JS).
+  - The contact form posts to Formsubmit and uses Formsubmit's own
+    "thanks" page after submission. Optional: create a Squarespace
+    page called /thank-you and replace the _next field with your
+    real URL for a custom thank-you page.
+  - The logo path uses a relative ./assets/logo.jpg ONLY for local
+    preview. In Squarespace, upload the logo via the image manager
+    and replace the src with the Squarespace-hosted URL it gives you.
+  ============================================================
+-->
+
+<style>
+  .rkas-block {
+    /* Brand palette */
+    --rkas-bg: #0a0f0d;
+    --rkas-bg-deep: #060807;
+    --rkas-surface: #141a17;
+    --rkas-border: rgba(240, 242, 239, 0.08);
+    --rkas-border-strong: rgba(240, 242, 239, 0.16);
+    --rkas-chalk: #f0f2ef;
+    --rkas-text: #d4d8d2;
+    --rkas-muted: #8a918a;
+    --rkas-muted-soft: #6a716a;
+    --rkas-orange: #e8892c;
+    --rkas-orange-bright: #f59e3b;
+    --rkas-orange-glow: rgba(232, 137, 44, 0.5);
+
+    /* Reset/base — scoped to the block */
+    box-sizing: border-box;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    color: var(--rkas-text);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    line-height: 1.5;
+
+    /* Dark card that sits inside Squarespace's page */
+    max-width: 720px;
+    margin: 24px auto;
+    padding: 48px 44px;
+    background: linear-gradient(180deg, var(--rkas-surface) 0%, var(--rkas-bg-deep) 100%);
+    border: 1px solid var(--rkas-border);
+    border-radius: 18px;
+    box-shadow:
+      0 30px 80px rgba(0, 0, 0, 0.25),
+      0 0 0 1px rgba(232, 137, 44, 0.08),
+      inset 0 1px 0 rgba(232, 137, 44, 0.15);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .rkas-block *,
+  .rkas-block *::before,
+  .rkas-block *::after {
+    box-sizing: border-box;
+  }
+
+  /* Ambient glow inside the card */
+  .rkas-block::before {
+    content: '';
+    position: absolute;
+    inset: -50% -20% auto -20%;
+    height: 80%;
+    background: radial-gradient(ellipse at 50% 0%, rgba(232, 137, 44, 0.15), transparent 60%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .rkas-block > * {
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Hero */
+  .rkas-block .hero {
+    text-align: center;
+    margin-bottom: 36px;
+  }
+
+  .rkas-block .logo-wrap {
+    display: inline-block;
+    position: relative;
+    margin-bottom: 24px;
+  }
+
+  .rkas-block .logo-wrap::before {
+    content: '';
+    position: absolute;
+    inset: -25%;
+    background: radial-gradient(circle, var(--rkas-orange-glow), transparent 60%);
+    filter: blur(18px);
+    z-index: 0;
+    opacity: 0.7;
+  }
+
+  .rkas-block .logo {
+    position: relative;
+    width: 88px;
+    height: 88px;
+    object-fit: contain;
+    z-index: 1;
+    filter: drop-shadow(0 0 30px var(--rkas-orange-glow));
+    display: block;
+  }
+
+  .rkas-block .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--rkas-orange-bright);
+    background: rgba(232, 137, 44, 0.1);
+    border: 1px solid rgba(232, 137, 44, 0.25);
+    padding: 6px 14px;
+    border-radius: 999px;
+    margin-bottom: 20px;
+  }
+
+  .rkas-block .pulse-dot {
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--rkas-orange);
+    box-shadow: 0 0 10px var(--rkas-orange-glow);
+    animation: rkas-pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes rkas-pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.8); }
+  }
+
+  .rkas-block .headline {
+    font-size: clamp(28px, 4.5vw, 44px);
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    color: var(--rkas-chalk);
+    margin: 0 0 16px;
+    line-height: 1.1;
+  }
+
+  .rkas-block .accent {
+    background: linear-gradient(135deg, var(--rkas-orange) 0%, var(--rkas-orange-bright) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+  }
+
+  .rkas-block .subhead {
+    font-size: 16px;
+    color: var(--rkas-muted);
+    margin: 0 auto;
+    max-width: 480px;
+    line-height: 1.6;
+  }
+
+  /* Expertise pills */
+  .rkas-block .expertise {
+    margin-top: 28px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+  }
+
+  .rkas-block .pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 13px;
+    border: 1px solid var(--rkas-border-strong);
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--rkas-text);
+    background: rgba(10, 15, 13, 0.5);
+    transition: border-color 0.2s, color 0.2s;
+  }
+
+  .rkas-block .pill::before {
+    content: '';
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: var(--rkas-orange);
+    box-shadow: 0 0 6px var(--rkas-orange-glow);
+  }
+
+  .rkas-block .pill:hover {
+    border-color: rgba(232, 137, 44, 0.4);
+    color: var(--rkas-chalk);
+  }
+
+  /* Divider */
+  .rkas-block .divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--rkas-border-strong), transparent);
+    margin: 40px 0 32px;
+  }
+
+  /* Contact section */
+  .rkas-block .contact-header {
+    margin-bottom: 24px;
+  }
+
+  .rkas-block .contact-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--rkas-chalk);
+    margin: 0 0 6px;
+    letter-spacing: -0.01em;
+  }
+
+  .rkas-block .contact-sub {
+    color: var(--rkas-muted);
+    margin: 0;
+    font-size: 14px;
+  }
+
+  /* Form */
+  .rkas-block .form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .rkas-block .field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .rkas-block .field label {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--rkas-text);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .rkas-block .field label .req {
+    color: var(--rkas-orange);
+    margin-left: 2px;
+  }
+
+  .rkas-block .field input,
+  .rkas-block .field textarea {
+    font-family: inherit;
+    font-size: 15px;
+    color: var(--rkas-chalk);
+    padding: 12px 14px;
+    border: 1px solid var(--rkas-border-strong);
+    border-radius: 10px;
+    background: rgba(6, 8, 7, 0.6);
+    transition: border-color 0.18s, box-shadow 0.18s, background 0.18s;
+    width: 100%;
+    line-height: 1.5;
+  }
+
+  .rkas-block .field input::placeholder,
+  .rkas-block .field textarea::placeholder {
+    color: var(--rkas-muted-soft);
+  }
+
+  .rkas-block .field textarea {
+    resize: vertical;
+    min-height: 110px;
+    font-family: inherit;
+  }
+
+  .rkas-block .field input:focus,
+  .rkas-block .field textarea:focus {
+    outline: none;
+    border-color: var(--rkas-orange);
+    background: rgba(6, 8, 7, 0.9);
+    box-shadow: 0 0 0 3px rgba(232, 137, 44, 0.18);
+  }
+
+  .rkas-block .submit {
+    margin-top: 6px;
+    padding: 14px 24px;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #0a0f0d;
+    background: linear-gradient(135deg, var(--rkas-orange) 0%, var(--rkas-orange-bright) 100%);
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: filter 0.2s, box-shadow 0.2s, transform 0.1s;
+    box-shadow: 0 8px 24px rgba(232, 137, 44, 0.22);
+  }
+
+  .rkas-block .submit:hover {
+    filter: brightness(1.08);
+    box-shadow: 0 12px 32px rgba(232, 137, 44, 0.36);
+  }
+
+  .rkas-block .submit:active {
+    transform: translateY(1px);
+  }
+
+  .rkas-block .submit:focus-visible {
+    outline: 2px solid var(--rkas-orange-bright);
+    outline-offset: 3px;
+  }
+
+  /* Mobile */
+  @media (max-width: 600px) {
+    .rkas-block {
+      padding: 32px 22px;
+      margin: 16px auto;
+      border-radius: 14px;
+    }
+    .rkas-block .logo { width: 72px; height: 72px; }
+    .rkas-block .divider { margin: 32px 0 24px; }
+  }
+</style>
+
+<div class="rkas-block">
+  <div class="hero">
+    <div class="logo-wrap">
+      <img src="./assets/logo.jpg" alt="RKAS Inc." class="logo" />
+    </div>
+    <span class="eyebrow"><span class="pulse-dot"></span>Coming Soon</span>
+    <h2 class="headline">Something new is <span class="accent">taking shape</span></h2>
+    <p class="subhead">We're building the next chapter of RKAS Inc. Check back soon — or reach out below and we'll be in touch.</p>
+    <div class="expertise" aria-label="Areas of expertise">
+      <span class="pill">Enterprise Architecture</span>
+      <span class="pill">Artificial Intelligence</span>
+      <span class="pill">Machine Learning</span>
+      <span class="pill">Data</span>
+      <span class="pill">Security</span>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="contact-header">
+    <h3 class="contact-title">Get in touch</h3>
+    <p class="contact-sub">Send us a message and we'll respond as soon as we can.</p>
+  </div>
+
+  <form class="form" action="YOUR_FORM_ENDPOINT" method="POST" novalidate>
+    <input type="hidden" name="_subject" value="New contact from rkasinc.com" />
+    <input type="hidden" name="_template" value="table" />
+    <input type="hidden" name="_captcha" value="true" />
+    <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off" />
+
+    <div class="field">
+      <label for="rkas-name">Name<span class="req">*</span></label>
+      <input id="rkas-name" type="text" name="name" placeholder="Your name" required autocomplete="name" />
+    </div>
+
+    <div class="field">
+      <label for="rkas-email">Email<span class="req">*</span></label>
+      <input id="rkas-email" type="email" name="email" placeholder="you@example.com" required autocomplete="email" />
+    </div>
+
+    <div class="field">
+      <label for="rkas-phone">Phone</label>
+      <input id="rkas-phone" type="tel" name="phone" placeholder="(555) 123-4567" autocomplete="tel" />
+    </div>
+
+    <div class="field">
+      <label for="rkas-message">Message<span class="req">*</span></label>
+      <textarea id="rkas-message" name="message" placeholder="Tell us about your project..." required></textarea>
+    </div>
+
+    <button class="submit" type="submit">Send message</button>
+  </form>
+</div>

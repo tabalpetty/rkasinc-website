@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Continuous AI pipelines re-process unchanged data on every run. A fingerprinting ledger eliminates that waste — cutting steady-state LLM cost by ~95% without touching recall." />
+  <meta name="robots" content="index, follow" />
+  <meta name="theme-color" content="#0a0f0d" />
+  <title>The Fingerprinting Ledger: Cutting Steady-State LLM Cost by ~95% — RKAS Inc.</title>
+  <link rel="icon" type="image/jpeg" href="../assets/logo.jpg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../assets/insights.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <nav class="nav">
+        <a class="nav-left" href="../index.html">
+          <img src="../assets/logo.jpg" alt="" class="nav-logo" />
+          <span class="nav-name">RKAS Inc.</span>
+        </a>
+        <ul class="nav-links">
+          <li><a href="../index.html#services">Services</a></li>
+          <li><a href="../index.html#accelerators">Accelerators</a></li>
+          <li><a href="../index.html#insights">Insights</a></li>
+          <li><a href="../index.html#contact" class="nav-cta">Request Strategy Briefing</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <article class="article">
+    <div class="container">
+      <div class="article-wrap">
+        <div class="breadcrumb"><a href="../index.html">Home</a> &nbsp;/&nbsp; <a href="../index.html#insights">Insights</a> &nbsp;/&nbsp; The Fingerprinting Ledger</div>
+        <div class="article-category">Cost Architecture</div>
+        <h1>The Fingerprinting Ledger: Cutting Steady-State LLM Cost by ~95%</h1>
+        <p class="article-dek">Continuous AI pipelines quietly re-process the same unchanged data on every run. The single highest-leverage cost lever is also one of the simplest: stop paying to re-decide what hasn't changed.</p>
+        <div class="article-meta">
+          <span><strong>RKAS Inc. Architecture Practice</strong></span>
+          <span class="dot"></span>
+          <span>April 2026</span>
+          <span class="dot"></span>
+          <span>7 min read</span>
+        </div>
+
+        <div class="prose">
+          <p>When enterprises model the cost of a continuous AI pipeline — one that ingests external feeds, classifies records, and enriches them on a schedule — they almost always budget for the wrong thing. They estimate the cost of processing the corpus <em>once</em>. But a pipeline that runs twice a day does not process the corpus once; it processes it hundreds of times a year. And on the overwhelming majority of those runs, <strong>the underlying data has not changed</strong>.</p>
+          <p>This is the steady-state problem. After the initial backfill, most of what a recurring pipeline sees on any given run is identical to what it saw on the last one. Re-embedding it, re-scoring it, and re-sending it to an LLM produces the same answer at full cost. For most continuous-discovery workloads, unchanged records are not a minority — they are ~95% of every run.</p>
+
+          <h2>The naïve pipeline pays full price for nothing</h2>
+          <p>A typical first-generation pipeline looks like this on every cycle: fetch all records → extract → score → call the LLM → persist. It is correct, it is simple, and it is enormously wasteful. The LLM call is the dominant line item, and it is being spent re-deciding records whose decision is already known and unchanged from yesterday.</p>
+          <p>Teams reach for the obvious levers first — a cheaper model, smaller prompts, aggressive batching. Those help at the margin. None of them address the actual problem, which is not that each call is too expensive but that <strong>most of the calls should never happen at all</strong>.</p>
+
+          <h2>The fingerprint: a hash of what actually drives the decision</h2>
+          <p>The fix is a content fingerprint — but not a naïve hash of the whole record. Records change in ways that are irrelevant to the decision: a timestamp updates, a tracking parameter shifts, a layout re-renders. Hashing the raw payload would mark those as "changed" and defeat the optimization.</p>
+          <p>Instead, the fingerprint is computed over the <strong>decision-bearing content only</strong> — the specific fields, phrases, or features that the classifier actually uses to reach its judgment. Everything else is excluded. Two versions of a record that differ only in noise produce the same fingerprint; two that differ in something the model would weigh produce different ones.</p>
+
+          <div class="callout">
+            <h4>The principle</h4>
+            <p>Fingerprint the inputs to the decision, not the record. If nothing the model would care about has changed, the decision cannot have changed — so there is nothing to recompute.</p>
+          </div>
+
+          <h2>The ledger: new, edited, unchanged</h2>
+          <p>Alongside the fingerprint sits a <strong>ledger</strong> — a durable table keyed by record identity that stores the last-seen fingerprint for every record the pipeline has ever processed. On each run, the fetch stage does one cheap lookup per record and classifies it into one of three states:</p>
+          <ul>
+            <li><strong>New</strong> — never seen before. Process fully.</li>
+            <li><strong>Edited</strong> — seen before, but the fingerprint changed. Re-process: the decision may have changed.</li>
+            <li><strong>Unchanged</strong> — seen before, identical fingerprint. Bump a <code>last_seen</code> timestamp and <strong>skip scoring, the LLM call, and persistence entirely</strong>.</li>
+          </ul>
+          <p>The unchanged path is the whole game. In steady state, a re-run over a corpus where nothing has changed produces zero LLM calls and near-zero cost — while still recording that every record was seen, so freshness and staleness tracking remain intact.</p>
+
+          <h2>Why this beats a generic cache</h2>
+          <p>An LLM response cache helps, but it is the wrong altitude. A cache still requires you to assemble the input, compute the cache key, and often re-run upstream extraction before you discover the hit. The ledger short-circuits <em>before</em> any of that work. It is the difference between "we computed the answer cheaply" and "we never started the computation."</p>
+          <p>The ledger is also durable and auditable in a way an in-memory cache is not. It survives restarts, it is queryable, and it gives operational dashboards an honest denominator — new vs. edited vs. unchanged per run — instead of a meaningless raw fetch count.</p>
+
+          <h2>The cost curve inverts</h2>
+          <p>With the ledger in place, the economics of a continuous pipeline change shape entirely. The expensive event is the initial backfill and the genuine daily delta — typically a small fraction of the corpus. Everything else runs for the price of a hash lookup. The same pipeline that would have cost tens of thousands of dollars a month in inference settles into a steady state an order of magnitude cheaper, with <strong>no reduction in recall and no change to the answers</strong>.</p>
+
+          <p>It is the rare optimization that is both architecturally clean and financially dramatic. You are not trading quality for cost. You are simply refusing to pay, over and over, to re-decide what you already know.</p>
+        </div>
+
+        <div class="article-cta">
+          <h3>Paying full price to re-process unchanged data?</h3>
+          <p>Our Project Veritas blueprint puts a fingerprinting ledger at the core of evidence-driven discovery pipelines. Let's scope it for your workload.</p>
+          <a href="../index.html#contact" class="btn-primary">
+            Request a Strategy Briefing
+            <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </a>
+        </div>
+
+        <div class="read-next">
+          <h4>Read next</h4>
+          <div class="read-next-grid">
+            <a class="read-next-card" href="grounding-beats-fluency.html">
+              <span class="rn-cat">AI Governance</span>
+              <h5>Grounding Beats Fluency: The Enterprise AI Evidence Layer</h5>
+            </a>
+            <a class="read-next-card" href="architecture-review-boards-genai.html">
+              <span class="rn-cat">AI Governance</span>
+              <h5>Architecture Review Boards for GenAI</h5>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-bottom">
+        <span>&copy; <span id="year"></span> RKAS Inc. All rights reserved.</span>
+        <span><a href="../index.html">Back to home</a></span>
+      </div>
+    </div>
+  </footer>
+
+  <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+</body>
+</html>

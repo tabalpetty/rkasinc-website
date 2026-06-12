@@ -1,0 +1,1994 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="RKAS Inc. — architecting the AI-driven enterprise. We engineer resilient, scalable cloud foundations and production-grade, governed AI systems for the Fortune 500." />
+  <meta name="robots" content="index, follow" />
+  <meta name="theme-color" content="#0a0f0d" />
+  <title>RKAS Inc. — Architecting the AI-Driven Enterprise</title>
+  <link rel="icon" type="image/jpeg" href="assets/logo.jpg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet" />
+  <!-- hCaptcha (whitepaper modal). Rendered explicitly from JS. -->
+  <script src="https://js.hcaptcha.com/1/api.js?render=explicit" async defer></script>
+  <style>
+    :root {
+      --bg: #0a0f0d;
+      --bg-deep: #060807;
+      --surface: #141a17;
+      --surface-lift: #1c2421;
+      --border: rgba(240, 242, 239, 0.08);
+      --border-strong: rgba(240, 242, 239, 0.16);
+
+      --chalk: #f0f2ef;
+      --text: #d4d8d2;
+      --muted: #8a918a;
+      --muted-soft: #6a716a;
+
+      --orange: #e8892c;
+      --orange-bright: #f59e3b;
+      --orange-glow: rgba(232, 137, 44, 0.5);
+      --navy: #2a3a6e;
+      --navy-bright: #4a5fa8;
+      --red: #c63030;
+
+      --shadow-lg: 0 30px 80px rgba(0, 0, 0, 0.5);
+      --radius: 12px;
+      --radius-lg: 16px;
+      --mono: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      color: var(--text);
+      background: var(--bg);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      line-height: 1.5;
+    }
+
+    body { min-height: 100vh; position: relative; overflow-x: hidden; }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 80% 50% at 50% -10%, rgba(232, 137, 44, 0.12), transparent 60%),
+        radial-gradient(ellipse 60% 40% at 80% 100%, rgba(42, 58, 110, 0.18), transparent 60%),
+        radial-gradient(ellipse 50% 40% at 10% 90%, rgba(198, 48, 48, 0.06), transparent 60%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.04 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.5;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1140px;
+      margin: 0 auto;
+      padding: 0 24px;
+      position: relative;
+      z-index: 1;
+    }
+
+    a { color: inherit; }
+
+    /* ---------- Header ---------- */
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(10, 15, 13, 0.72);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 0;
+    }
+
+    .nav-left { display: flex; align-items: center; gap: 12px; }
+    .nav-logo { width: 34px; height: 34px; object-fit: contain; border-radius: 6px; }
+    .nav-name { font-weight: 800; font-size: 17px; letter-spacing: 0.04em; color: var(--chalk); }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 26px;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .nav-links a {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+
+    .nav-links a:hover { color: var(--chalk); }
+
+    .nav-cta {
+      display: inline-flex;
+      align-items: center;
+      padding: 10px 18px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--bg);
+      background: linear-gradient(135deg, var(--orange) 0%, var(--orange-bright) 100%);
+      border-radius: 999px;
+      text-decoration: none;
+      box-shadow: 0 6px 18px rgba(232, 137, 44, 0.22);
+      transition: filter 0.18s, box-shadow 0.2s, transform 0.1s;
+      white-space: nowrap;
+    }
+
+    .nav-cta:hover { filter: brightness(1.08); box-shadow: 0 10px 26px rgba(232, 137, 44, 0.38); }
+    .nav-cta:active { transform: translateY(1px); }
+
+    .nav-toggle {
+      display: none;
+      background: none;
+      border: 1px solid var(--border-strong);
+      border-radius: 8px;
+      padding: 8px;
+      cursor: pointer;
+    }
+    .nav-toggle svg { width: 20px; height: 20px; stroke: var(--chalk); }
+
+    /* ---------- Shared section bits ---------- */
+    section { position: relative; }
+    .section-pad { padding: 100px 0; }
+    .alt-surface { background: var(--bg-deep); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+
+    /* ---------- Tabs ---------- */
+    section[data-tab] { display: none; }
+    section[data-tab].active { display: block; }
+    .nav-links a[data-tab]:not(.nav-cta).active { color: var(--chalk); }
+    .nav-links a[data-tab]:not(.nav-cta).active::after {
+      content: '';
+      display: block;
+      height: 2px;
+      margin-top: 5px;
+      border-radius: 2px;
+      background: linear-gradient(90deg, var(--orange), var(--orange-bright));
+    }
+
+    /* ---------- Home explore hub ---------- */
+    .explore-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
+    .explore-card {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 28px;
+      min-height: 150px;
+      text-decoration: none;
+      padding: 26px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      background: linear-gradient(180deg, var(--surface) 0%, var(--bg-deep) 100%);
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .explore-card:hover { border-color: var(--border-strong); transform: translateY(-3px); }
+    .ec-num { font-family: var(--mono); font-size: 12px; font-weight: 600; color: var(--orange); letter-spacing: 0.06em; }
+    .ec-title { font-size: 18px; font-weight: 700; color: var(--chalk); letter-spacing: -0.01em; margin-top: 4px; }
+    .ec-sub { font-size: 13px; color: var(--muted); margin-top: 6px; line-height: 1.45; }
+    .ec-arrow svg { width: 20px; height: 20px; stroke: var(--orange-bright); fill: none; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-family: var(--mono);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--orange-bright);
+      margin-bottom: 22px;
+    }
+
+    .eyebrow::before {
+      content: '';
+      width: 24px;
+      height: 1px;
+      background: var(--orange);
+    }
+
+    .section-heading {
+      font-size: clamp(28px, 4vw, 42px);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: var(--chalk);
+      margin: 0 0 18px;
+      line-height: 1.12;
+    }
+
+    .section-intro {
+      font-size: 17px;
+      color: var(--muted);
+      max-width: 640px;
+      margin: 0;
+      line-height: 1.65;
+    }
+
+    .section-head { max-width: 740px; margin-bottom: 60px; }
+
+    /* ---------- Hero ---------- */
+    .hero { text-align: center; padding: 92px 0 56px; }
+
+    .hero-inner {
+      max-width: 880px;
+      margin: 0 auto;
+      animation: rise 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .hero-logo-wrap { display: inline-block; position: relative; margin-bottom: 28px; }
+    .hero-logo-wrap::before {
+      content: '';
+      position: absolute;
+      inset: -30%;
+      background: radial-gradient(circle, var(--orange-glow), transparent 60%);
+      filter: blur(20px);
+      z-index: 0;
+      opacity: 0.55;
+    }
+    .hero-logo {
+      position: relative;
+      width: 84px; height: 84px;
+      object-fit: contain;
+      z-index: 1;
+      filter: drop-shadow(0 0 40px var(--orange-glow));
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--mono);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--orange-bright);
+      background: rgba(232, 137, 44, 0.08);
+      border: 1px solid rgba(232, 137, 44, 0.25);
+      padding: 7px 16px;
+      border-radius: 999px;
+      margin-bottom: 26px;
+    }
+
+    .hero h1 {
+      font-size: clamp(38px, 6.4vw, 66px);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      color: var(--chalk);
+      margin: 0 0 22px;
+      line-height: 1.05;
+    }
+
+    .hero h1 .accent {
+      background: linear-gradient(135deg, var(--orange) 0%, var(--orange-bright) 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      color: transparent;
+    }
+
+    .hero p.sub {
+      font-size: clamp(16px, 1.6vw, 19px);
+      color: var(--muted);
+      margin: 0 auto;
+      max-width: 680px;
+      line-height: 1.65;
+    }
+
+    .hero-actions { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; margin-top: 36px; }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 16px 30px;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--bg);
+      background: linear-gradient(135deg, var(--orange) 0%, var(--orange-bright) 100%);
+      border-radius: 999px;
+      text-decoration: none;
+      box-shadow: 0 12px 30px rgba(232, 137, 44, 0.3);
+      transition: filter 0.18s, box-shadow 0.2s, transform 0.1s;
+    }
+    .btn-primary:hover { filter: brightness(1.08); box-shadow: 0 16px 40px rgba(232, 137, 44, 0.45); }
+    .btn-primary:active { transform: translateY(1px); }
+    .btn-primary svg { width: 18px; height: 18px; stroke: currentColor; fill: none; stroke-width: 2.2; }
+
+    .btn-ghost {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 16px 28px;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--chalk);
+      background: transparent;
+      border: 1px solid var(--border-strong);
+      border-radius: 999px;
+      text-decoration: none;
+      transition: border-color 0.2s, background 0.2s, color 0.2s;
+    }
+    .btn-ghost:hover { border-color: rgba(232, 137, 44, 0.4); color: var(--orange-bright); background: rgba(232, 137, 44, 0.05); }
+
+    /* ---------- Trust bar ---------- */
+    .trust { margin-top: 76px; padding-top: 38px; border-top: 1px solid var(--border); }
+    .trust-label {
+      font-family: var(--mono);
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted-soft);
+      margin: 0 0 24px;
+    }
+    .trust-logos { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 16px 44px; }
+    .trust-logos span {
+      font-size: 19px;
+      font-weight: 700;
+      letter-spacing: 0.01em;
+      color: var(--text);
+      opacity: 0.6;
+      transition: opacity 0.2s;
+    }
+    .trust-logos span:hover { opacity: 1; }
+
+    /* ---------- Stats band ---------- */
+    .stats-band {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+    }
+    .stat { background: var(--bg-deep); padding: 34px 28px; text-align: center; }
+    .stat-num {
+      font-size: clamp(30px, 4vw, 42px);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      line-height: 1;
+      background: linear-gradient(135deg, var(--orange) 0%, var(--orange-bright) 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      color: transparent;
+      margin-bottom: 12px;
+    }
+    .stat-label { font-size: 13.5px; color: var(--muted); line-height: 1.4; }
+
+    /* ---------- Cards grid (services) ---------- */
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+
+    .card {
+      position: relative;
+      background: linear-gradient(180deg, var(--surface) 0%, var(--bg-deep) 100%);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 34px 30px;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .card:hover { border-color: var(--border-strong); transform: translateY(-3px); }
+
+    .card-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 48px; height: 48px;
+      border-radius: 12px;
+      background: rgba(232, 137, 44, 0.1);
+      border: 1px solid rgba(232, 137, 44, 0.25);
+      margin-bottom: 22px;
+    }
+    .card-icon svg {
+      width: 23px; height: 23px;
+      stroke: var(--orange-bright);
+      fill: none; stroke-width: 1.7;
+      stroke-linecap: round; stroke-linejoin: round;
+    }
+
+    .card .kicker {
+      display: block;
+      font-family: var(--mono);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--orange);
+      margin-bottom: 10px;
+    }
+    .card h3 {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--chalk);
+      margin: 0 0 13px;
+      letter-spacing: -0.01em;
+      line-height: 1.25;
+    }
+    .card p { font-size: 15px; color: var(--muted); margin: 0 0 20px; line-height: 1.62; }
+
+    .card-tags { display: flex; flex-wrap: wrap; gap: 8px; padding-top: 18px; border-top: 1px solid var(--border); }
+    .card-tag {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--text);
+      background: rgba(240, 242, 239, 0.04);
+      border: 1px solid var(--border);
+      padding: 5px 11px;
+      border-radius: 6px;
+    }
+
+    /* ---------- Principles ---------- */
+    .principles-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 22px; }
+    .principle {
+      display: flex;
+      gap: 20px;
+      padding: 30px;
+      background: linear-gradient(180deg, var(--surface) 0%, var(--bg-deep) 100%);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+    }
+    .principle-num {
+      flex: none;
+      font-family: var(--mono);
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--orange-bright);
+      width: 44px; height: 44px;
+      display: flex; align-items: center; justify-content: center;
+      border: 1px solid rgba(232, 137, 44, 0.3);
+      border-radius: 10px;
+      background: rgba(232, 137, 44, 0.06);
+    }
+    .principle h3 { font-size: 18px; font-weight: 700; color: var(--chalk); margin: 4px 0 8px; letter-spacing: -0.01em; }
+    .principle p { font-size: 14.5px; color: var(--muted); margin: 0; line-height: 1.6; }
+
+    /* ---------- Accelerators (case blocks) ---------- */
+    .case {
+      position: relative;
+      background: linear-gradient(180deg, var(--surface) 0%, var(--bg-deep) 100%);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 42px;
+      margin-bottom: 26px;
+      display: grid;
+      grid-template-columns: 1fr 1.15fr;
+      gap: 44px;
+    }
+    .case:last-child { margin-bottom: 0; }
+
+    .case-side { }
+    .case-name {
+      font-family: var(--mono);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--orange);
+      margin-bottom: 14px;
+    }
+    .case-domain {
+      display: inline-block;
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--navy-bright);
+      border: 1px solid rgba(74, 95, 168, 0.4);
+      background: rgba(42, 58, 110, 0.15);
+      padding: 4px 10px;
+      border-radius: 6px;
+      margin-bottom: 18px;
+    }
+    .case h3 {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--chalk);
+      margin: 0 0 16px;
+      letter-spacing: -0.015em;
+      line-height: 1.2;
+    }
+    .case-lead { font-size: 15.5px; color: var(--muted); margin: 0 0 24px; line-height: 1.65; }
+
+    .case-metric {
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
+      padding: 18px 20px;
+      border: 1px solid rgba(232, 137, 44, 0.22);
+      background: rgba(232, 137, 44, 0.05);
+      border-radius: var(--radius);
+    }
+    .case-metric-num {
+      font-size: 30px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      background: linear-gradient(135deg, var(--orange) 0%, var(--orange-bright) 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      color: transparent;
+      line-height: 1;
+    }
+    .case-metric-label { font-size: 13px; color: var(--text); line-height: 1.4; }
+
+    .case-highlights { display: flex; flex-direction: column; gap: 18px; }
+    .hl { display: flex; gap: 14px; }
+    .hl-mark { flex: none; margin-top: 3px; }
+    .hl-mark svg { width: 18px; height: 18px; stroke: var(--orange-bright); fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .hl-label {
+      font-family: var(--mono);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      color: var(--chalk);
+      display: block;
+      margin-bottom: 4px;
+    }
+    .hl-text { font-size: 14px; color: var(--muted); line-height: 1.55; }
+
+    /* ---------- Capabilities ---------- */
+    .cap-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 22px; }
+    .cap-col h4 {
+      font-family: var(--mono);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--orange-bright);
+      margin: 0 0 16px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border);
+    }
+    .cap-col ul { list-style: none; margin: 0; padding: 0; }
+    .cap-col li { font-size: 14.5px; color: var(--text); padding: 7px 0; }
+
+    /* ---------- Insights ---------- */
+    .insights-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+    .insight-card {
+      display: flex;
+      flex-direction: column;
+      text-decoration: none;
+      background: linear-gradient(180deg, var(--surface) 0%, var(--bg-deep) 100%);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 30px;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .insight-card:hover { border-color: var(--border-strong); transform: translateY(-3px); }
+    .insight-cat {
+      font-family: var(--mono);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--orange);
+      margin-bottom: 14px;
+    }
+    .insight-card h3 {
+      font-size: 19px;
+      font-weight: 700;
+      color: var(--chalk);
+      margin: 0 0 12px;
+      letter-spacing: -0.01em;
+      line-height: 1.3;
+    }
+    .insight-card p { font-size: 14.5px; color: var(--muted); margin: 0 0 22px; line-height: 1.6; flex: 1; }
+    .insight-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 18px;
+      border-top: 1px solid var(--border);
+      font-size: 13px;
+      color: var(--muted-soft);
+    }
+    .insight-link { color: var(--orange-bright); font-weight: 600; display: inline-flex; align-items: center; gap: 6px; }
+    .insight-link svg { width: 15px; height: 15px; stroke: currentColor; fill: none; stroke-width: 2.2; }
+
+    /* ---------- Whitepapers ---------- */
+    .wp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+    .wp-card {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      background: linear-gradient(180deg, var(--surface) 0%, var(--bg-deep) 100%);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 34px;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .wp-card:hover { border-color: var(--border-strong); transform: translateY(-3px); }
+    .wp-cat {
+      font-family: var(--mono);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--orange);
+      margin-bottom: 12px;
+    }
+    .wp-card h3 { font-size: 20px; font-weight: 700; color: var(--chalk); margin: 0 0 16px; letter-spacing: -0.015em; line-height: 1.28; }
+    .wp-challenge {
+      font-size: 14.5px; color: var(--text); line-height: 1.6;
+      margin: 0 0 18px; padding: 14px 16px;
+      background: rgba(232, 137, 44, 0.05);
+      border: 1px solid rgba(232, 137, 44, 0.18);
+      border-radius: 10px;
+    }
+    .wp-label {
+      display: block; font-family: var(--mono); font-size: 11px;
+      font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+    .wp-challenge .wp-label { color: var(--orange-bright); }
+    .wp-summary { font-size: 14.5px; color: var(--muted); margin: 0 0 24px; line-height: 1.65; flex: 1; }
+    .wp-summary .wp-label { color: var(--muted-soft); }
+    .wp-foot { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; padding-top: 22px; border-top: 1px solid var(--border); }
+    .wp-specs { font-family: var(--mono); font-size: 12px; color: var(--muted-soft); }
+    .wp-download {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      padding: 12px 20px;
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--bg);
+      background: linear-gradient(135deg, var(--orange) 0%, var(--orange-bright) 100%);
+      border: none;
+      border-radius: 999px;
+      cursor: pointer;
+      box-shadow: 0 6px 18px rgba(232, 137, 44, 0.22);
+      transition: filter 0.18s, box-shadow 0.2s, transform 0.1s;
+    }
+    .wp-download:hover { filter: brightness(1.08); box-shadow: 0 10px 26px rgba(232, 137, 44, 0.38); }
+    .wp-download:active { transform: translateY(1px); }
+    .wp-download svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 2.1; stroke-linecap: round; stroke-linejoin: round; }
+
+    /* ---------- Modal ---------- */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      background: rgba(6, 8, 7, 0.72);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+    }
+    .modal-overlay.open { display: flex; animation: fade 0.2s ease both; }
+    @keyframes fade { from { opacity: 0; } to { opacity: 1; } }
+
+    .modal {
+      position: relative;
+      width: 100%;
+      max-width: 460px;
+      background: linear-gradient(180deg, var(--surface) 0%, var(--bg-deep) 100%);
+      border: 1px solid var(--border-strong);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-lg);
+      padding: 36px;
+      animation: rise 0.35s cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+    .modal-close {
+      position: absolute;
+      top: 16px; right: 16px;
+      width: 34px; height: 34px;
+      display: inline-flex; align-items: center; justify-content: center;
+      background: transparent;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--muted);
+      cursor: pointer;
+      transition: color 0.15s, border-color 0.15s;
+    }
+    .modal-close:hover { color: var(--chalk); border-color: var(--border-strong); }
+    .modal-close svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 2; }
+    .modal-icon {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 46px; height: 46px; border-radius: 12px;
+      background: rgba(232, 137, 44, 0.1); border: 1px solid rgba(232, 137, 44, 0.25);
+      margin-bottom: 18px;
+    }
+    .modal-icon svg { width: 22px; height: 22px; stroke: var(--orange-bright); fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+    .modal h3 { font-size: 22px; font-weight: 700; color: var(--chalk); margin: 0 0 8px; letter-spacing: -0.015em; }
+    .modal-sub { font-size: 14.5px; color: var(--muted); margin: 0 0 24px; line-height: 1.55; }
+    .modal-sub .wp-target { color: var(--chalk); font-weight: 600; }
+    .modal .field { display: flex; flex-direction: column; gap: 8px; }
+    .modal label { font-size: 12px; font-weight: 600; color: var(--text); letter-spacing: 0.04em; text-transform: uppercase; }
+    .modal input {
+      font-family: inherit; font-size: 15px; color: var(--chalk);
+      padding: 13px 16px; border: 1px solid var(--border-strong);
+      border-radius: var(--radius); background: rgba(10, 15, 13, 0.6);
+      transition: border-color 0.18s, box-shadow 0.18s, background 0.18s; width: 100%;
+    }
+    .modal input::placeholder { color: var(--muted-soft); }
+    .modal input:focus { outline: none; border-color: var(--orange); background: rgba(10, 15, 13, 0.9); box-shadow: 0 0 0 3px rgba(232, 137, 44, 0.18); }
+    .modal input.invalid { border-color: var(--red); box-shadow: 0 0 0 3px rgba(198, 48, 48, 0.18); }
+    .wp-captcha { margin: 16px 0 2px; min-height: 0; }
+    .wp-captcha:empty { display: none; }
+    .modal-error { font-size: 13px; color: #f08a8a; min-height: 18px; margin: 8px 0 0; }
+    .modal-submit {
+      margin-top: 18px; width: 100%;
+      padding: 15px 24px; font-family: inherit; font-size: 14px; font-weight: 600;
+      text-transform: uppercase; letter-spacing: 0.06em; color: var(--bg);
+      background: linear-gradient(135deg, var(--orange) 0%, var(--orange-bright) 100%);
+      border: none; border-radius: var(--radius); cursor: pointer;
+      box-shadow: 0 8px 24px rgba(232, 137, 44, 0.25);
+      transition: transform 0.1s, box-shadow 0.2s, filter 0.2s;
+    }
+    .modal-submit:hover { filter: brightness(1.08); box-shadow: 0 12px 32px rgba(232, 137, 44, 0.4); }
+    .modal-submit:active { transform: translateY(1px); }
+    .modal-submit:disabled { opacity: 0.7; cursor: default; }
+    .modal-note { font-size: 12px; color: var(--muted-soft); margin: 16px 0 0; line-height: 1.5; text-align: center; }
+    .modal-success {
+      display: none; flex-direction: column; align-items: center; text-align: center; gap: 6px; padding: 12px 0;
+    }
+    .modal.done .modal-form { display: none; }
+    .modal.done .modal-success { display: flex; }
+    .modal-success .check {
+      width: 56px; height: 56px; border-radius: 50%;
+      background: rgba(0, 210, 148, 0.12); border: 1px solid rgba(0, 210, 148, 0.3);
+      display: inline-flex; align-items: center; justify-content: center; margin-bottom: 8px;
+    }
+    .modal-success .check svg { width: 28px; height: 28px; stroke: #00d294; fill: none; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+    .modal-success h3 { margin: 0; }
+    .modal-success p { font-size: 14px; color: var(--muted); margin: 0; }
+
+    /* ---------- Pedigree ---------- */
+    .pedigree-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 26px; }
+    .pedigree-block {
+      background: linear-gradient(180deg, var(--surface) 0%, var(--bg-deep) 100%);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 38px 36px;
+    }
+    .pedigree-block h3 {
+      font-family: var(--mono);
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--orange-bright);
+      margin: 0 0 18px;
+    }
+    .pedigree-block p { font-size: 16px; color: var(--text); margin: 0; line-height: 1.7; }
+    .pedigree-quote {
+      margin-top: 18px;
+      font-size: 16px;
+      color: var(--chalk);
+      font-weight: 600;
+      line-height: 1.5;
+      padding-left: 16px;
+      border-left: 2px solid var(--orange);
+    }
+
+    /* ---------- Contact ---------- */
+    .contact {
+      background: linear-gradient(180deg, var(--surface) 0%, var(--bg-deep) 100%);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-lg);
+      padding: 48px;
+      max-width: 720px;
+      width: 100%;
+      margin: 0 auto;
+      border: 1px solid var(--border);
+      position: relative;
+    }
+    .contact::before {
+      content: '';
+      position: absolute;
+      inset: -1px;
+      border-radius: var(--radius-lg);
+      padding: 1px;
+      background: linear-gradient(180deg, rgba(232, 137, 44, 0.25), transparent 50%);
+      -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      pointer-events: none;
+    }
+    .contact-header { margin-bottom: 32px; text-align: center; }
+    .contact-header h2 { font-size: 28px; font-weight: 700; color: var(--chalk); margin: 0 0 8px; letter-spacing: -0.015em; }
+    .contact-header p { color: var(--muted); margin: 0; font-size: 15px; }
+
+    .form { display: flex; flex-direction: column; gap: 20px; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .field { display: flex; flex-direction: column; gap: 8px; }
+    .field label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+    .field label .req { color: var(--orange); margin-left: 3px; }
+
+    .field input, .field select, .field textarea {
+      font-family: inherit;
+      font-size: 15px;
+      color: var(--chalk);
+      padding: 13px 16px;
+      border: 1px solid var(--border-strong);
+      border-radius: var(--radius);
+      background: rgba(10, 15, 13, 0.6);
+      transition: border-color 0.18s, box-shadow 0.18s, background 0.18s;
+      width: 100%;
+    }
+    .field select {
+      appearance: none;
+      -webkit-appearance: none;
+      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%238a918a' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'/></svg>");
+      background-repeat: no-repeat;
+      background-position: right 16px center;
+      padding-right: 42px;
+      cursor: pointer;
+    }
+    .field input::placeholder, .field textarea::placeholder { color: var(--muted-soft); }
+    .field textarea { resize: vertical; min-height: 130px; line-height: 1.55; }
+    .field input:focus, .field select:focus, .field textarea:focus {
+      outline: none;
+      border-color: var(--orange);
+      background: rgba(10, 15, 13, 0.9);
+      box-shadow: 0 0 0 3px rgba(232, 137, 44, 0.18);
+    }
+
+    .submit {
+      margin-top: 8px;
+      padding: 16px 24px;
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--bg);
+      background: linear-gradient(135deg, var(--orange) 0%, var(--orange-bright) 100%);
+      border: none;
+      border-radius: var(--radius);
+      cursor: pointer;
+      transition: transform 0.1s, box-shadow 0.2s, filter 0.2s;
+      box-shadow: 0 8px 24px rgba(232, 137, 44, 0.25);
+    }
+    .submit:hover { filter: brightness(1.08); box-shadow: 0 12px 32px rgba(232, 137, 44, 0.4); }
+    .submit:active { transform: translateY(1px); }
+    .submit:focus-visible { outline: 2px solid var(--orange-bright); outline-offset: 3px; }
+
+    /* ---------- Footer ---------- */
+    .footer { border-top: 1px solid var(--border); padding: 56px 0 40px; }
+    .footer-top { display: flex; justify-content: space-between; gap: 40px; flex-wrap: wrap; margin-bottom: 40px; }
+    .footer-brand { max-width: 320px; }
+    .footer-brand .nav-left { margin-bottom: 16px; }
+    .footer-brand p { font-size: 14px; color: var(--muted); margin: 0; line-height: 1.6; }
+    .footer-cols { display: flex; gap: 64px; flex-wrap: wrap; }
+    .footer-col h5 {
+      font-family: var(--mono);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted-soft);
+      margin: 0 0 16px;
+    }
+    .footer-col a { display: block; font-size: 14px; color: var(--text); text-decoration: none; padding: 6px 0; transition: color 0.15s; }
+    .footer-col a:hover { color: var(--orange-bright); }
+    .footer-bottom {
+      padding-top: 28px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+      color: var(--muted-soft);
+      font-size: 13px;
+    }
+
+    /* ---------- Mobile ---------- */
+    @media (max-width: 900px) {
+      .grid-3 { grid-template-columns: 1fr; }
+      .insights-grid { grid-template-columns: 1fr; }
+      .wp-grid { grid-template-columns: 1fr; }
+      .explore-grid { grid-template-columns: 1fr 1fr; }
+      .principles-grid { grid-template-columns: 1fr; }
+      .pedigree-grid { grid-template-columns: 1fr; }
+      .cap-grid { grid-template-columns: 1fr 1fr; }
+      .stats-band { grid-template-columns: 1fr 1fr; }
+      .case { grid-template-columns: 1fr; gap: 30px; padding: 32px; }
+      .nav-links {
+        position: absolute;
+        top: 100%; left: 0; right: 0;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0;
+        background: rgba(10, 15, 13, 0.97);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border-bottom: 1px solid var(--border);
+        padding: 8px 0;
+        display: none;
+      }
+      .nav-links.open { display: flex; }
+      .nav-links li { padding: 0 24px; }
+      .nav-links a { display: block; padding: 14px 0; border-bottom: 1px solid var(--border); }
+      .nav-links li:last-child a { border-bottom: none; }
+      .nav-links .nav-cta { margin: 10px 24px; justify-content: center; }
+      .nav-toggle { display: inline-flex; }
+    }
+
+    @media (max-width: 600px) {
+      .container { padding: 0 18px; }
+      .section-pad { padding: 64px 0; }
+      .hero { padding: 56px 0 44px; }
+      .section-head { margin-bottom: 40px; }
+      .cap-grid { grid-template-columns: 1fr; }
+      .stats-band { grid-template-columns: 1fr; }
+      .explore-grid { grid-template-columns: 1fr; }
+      .contact { padding: 30px 22px; }
+      .form-row { grid-template-columns: 1fr; }
+      .case { padding: 26px 22px; }
+      .trust-logos span { font-size: 16px; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="site-header">
+    <div class="container">
+      <nav class="nav">
+        <a class="nav-left" href="#home" data-tab="home" style="text-decoration:none;">
+          <img src="assets/logo.jpg" alt="" class="nav-logo" />
+          <span class="nav-name">RKAS Inc.</span>
+        </a>
+        <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        </button>
+        <ul class="nav-links">
+          <li><a href="#home" data-tab="home">Home</a></li>
+          <li><a href="#services" data-tab="services">Services</a></li>
+          <li><a href="#accelerators" data-tab="accelerators">Accelerators</a></li>
+          <li><a href="#insights" data-tab="insights">Insights</a></li>
+          <li><a href="#whitepapers" data-tab="whitepapers">Whitepapers</a></li>
+          <li><a href="#pedigree" data-tab="pedigree">Pedigree</a></li>
+          <li><a href="#contact" data-tab="contact" class="nav-cta">Request Strategy Briefing</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero active" data-tab="home">
+    <div class="container">
+      <div class="hero-inner">
+        <div class="hero-logo-wrap">
+          <img src="assets/logo.jpg" alt="RKAS Inc." class="hero-logo" />
+        </div>
+        <div class="hero-badge">Enterprise AI &amp; Cloud Architecture</div>
+        <h1>Architecting the <span class="accent">AI-Driven Enterprise</span>.</h1>
+        <p class="sub">We engineer resilient, scalable cloud foundations and production-grade AI systems for the Fortune 500 — bridging the gap between legacy stability and disruptive innovation, where grounding beats fluency and innovation never outpaces security.</p>
+        <div class="hero-actions">
+          <a href="#contact" class="btn-primary">
+            Request a Strategy Briefing
+            <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </a>
+          <a href="#accelerators" class="btn-ghost">See our accelerators</a>
+        </div>
+
+        <div class="trust">
+          <p class="trust-label">Trusted by architectural leaders at:</p>
+          <div class="trust-logos">
+            <span>Walmart</span>
+            <span>CVS Health</span>
+            <span>Bank of America</span>
+            <span>Toyota</span>
+            <span>iHeartMedia</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats band -->
+  <section class="active" data-tab="home" style="padding: 0 0 20px;">
+    <div class="container">
+      <div class="stats-band">
+        <div class="stat">
+          <div class="stat-num">~95%</div>
+          <div class="stat-label">Steady-state LLM cost reduction via proprietary accelerators</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">Zero</div>
+          <div class="stat-label">Proprietary data egress in sovereign AI deployments</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">3</div>
+          <div class="stat-label">Hyperscalers — AWS, GCP &amp; Azure target-state architectures</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">100%</div>
+          <div class="stat-label">AI judgments grounded in retrieved, inspectable evidence</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Home explore hub -->
+  <section class="active" data-tab="home" style="padding: 40px 0 100px;">
+    <div class="container">
+      <div class="section-head" style="margin-bottom: 36px;">
+        <span class="eyebrow">Explore</span>
+        <h2 class="section-heading">Where would you like to start?</h2>
+      </div>
+      <div class="explore-grid">
+        <a class="explore-card" href="#services" data-tab="services">
+          <div>
+            <span class="ec-num">01</span>
+            <div class="ec-title">Services</div>
+            <div class="ec-sub">Our three strategic disciplines, principles &amp; full-stack practice</div>
+          </div>
+          <span class="ec-arrow"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+        </a>
+        <a class="explore-card" href="#accelerators" data-tab="accelerators">
+          <div>
+            <span class="ec-num">02</span>
+            <div class="ec-title">Accelerators</div>
+            <div class="ec-sub">Proprietary blueprints: Sovereign, Veritas &amp; LearnRepeat</div>
+          </div>
+          <span class="ec-arrow"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+        </a>
+        <a class="explore-card" href="#insights" data-tab="insights">
+          <div>
+            <span class="ec-num">03</span>
+            <div class="ec-title">Insights</div>
+            <div class="ec-sub">Field notes on grounding, cost control &amp; AI governance</div>
+          </div>
+          <span class="ec-arrow"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+        </a>
+        <a class="explore-card" href="#whitepapers" data-tab="whitepapers">
+          <div>
+            <span class="ec-num">04</span>
+            <div class="ec-title">Whitepapers</div>
+            <div class="ec-sub">Ten in-depth architecture papers, free with a corporate email</div>
+          </div>
+          <span class="ec-arrow"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Services -->
+  <section id="services" class="section-pad" data-tab="services">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">Strategic Services</span>
+        <h2 class="section-heading">Engineering the Future of Enterprise IT</h2>
+        <p class="section-intro">Three disciplines, delivered as one integrated practice — so innovation and governance advance together rather than in tension.</p>
+      </div>
+      <div class="grid-3">
+        <article class="card">
+          <span class="card-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2v4M12 18v4M2 12h4M18 12h4M5 5l2.5 2.5M16.5 16.5L19 19M19 5l-2.5 2.5M7.5 16.5L5 19"/></svg>
+          </span>
+          <span class="kicker">Pillar 01</span>
+          <h3>AI-Native Architecture &amp; Agentic Systems</h3>
+          <p>Designing compound AI applications and agentic workflows that seamlessly combine LLMs, multimodal RAG, and internal APIs to orchestrate complex enterprise workflows.</p>
+          <div class="card-tags">
+            <span class="card-tag">Agent orchestration</span>
+            <span class="card-tag">Multimodal RAG</span>
+            <span class="card-tag">Tool &amp; API integration</span>
+          </div>
+        </article>
+        <article class="card">
+          <span class="card-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M3 9l9-6 9 6v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 21V12h6v9"/></svg>
+          </span>
+          <span class="kicker">Pillar 02</span>
+          <h3>Enterprise Architecture &amp; Cloud Transformation</h3>
+          <p>Aligning CXO strategy with precise engineering. We drive digital modernization and target-state cloud architectures across AWS, GCP, and Azure to future-proof complex legacy environments.</p>
+          <div class="card-tags">
+            <span class="card-tag">Multi-cloud target state</span>
+            <span class="card-tag">Legacy modernization</span>
+            <span class="card-tag">Cost &amp; resilience</span>
+          </div>
+        </article>
+        <article class="card">
+          <span class="card-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>
+          </span>
+          <span class="kicker">Pillar 03</span>
+          <h3>AI Governance &amp; Enterprise Risk Control</h3>
+          <p>Extending traditional enterprise governance into GenAI. We define strict guardrails, human-in-the-loop controls, and Architecture Review Boards to ensure AI adoption remains secure and compliant.</p>
+          <div class="card-tags">
+            <span class="card-tag">Guardrails</span>
+            <span class="card-tag">Human-in-the-loop</span>
+            <span class="card-tag">Review boards</span>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Principles / How we engineer -->
+  <section id="principles" class="section-pad alt-surface" data-tab="services">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">How We Engineer</span>
+        <h2 class="section-heading">Principles That Make AI Safe for the Enterprise</h2>
+        <p class="section-intro">The same architectural discipline runs through every system we ship. These are not slogans — they are enforced contracts in our designs.</p>
+      </div>
+      <div class="principles-grid">
+        <div class="principle">
+          <div class="principle-num">01</div>
+          <div>
+            <h3>Grounding beats fluency</h3>
+            <p>No AI output enters the business data plane unless it is tied to specific retrieved evidence — a source span, a concept node, or a prior decision. A system that can't show its evidence doesn't ship.</p>
+          </div>
+        </div>
+        <div class="principle">
+          <div class="principle-num">02</div>
+          <div>
+            <h3>Innovation cannot outpace security</h3>
+            <p>Every deployment ships with guardrails, human-in-the-loop controls, and Architecture Review Boards. We act as both the spear of innovation and the shield of governance.</p>
+          </div>
+        </div>
+        <div class="principle">
+          <div class="principle-num">03</div>
+          <div>
+            <h3>Evidence is data, not log output</h3>
+            <p>Decision trails live in the database next to the values they justify — inspectable, auditable, and queryable — not buried in application logs where no one can act on them.</p>
+          </div>
+        </div>
+        <div class="principle">
+          <div class="principle-num">04</div>
+          <div>
+            <h3>Determinism where possible, disclosed where not</h3>
+            <p>Prompt templates, model IDs, and embedding versions are versioned as code and gated against a golden corpus. Where non-determinism is unavoidable, it is measured and disclosed.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Accelerators -->
+  <section id="accelerators" class="section-pad" data-tab="accelerators">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">Proof of Capability</span>
+        <h2 class="section-heading">Proven Blueprints for Complex Problems</h2>
+        <p class="section-intro">Our team leverages proprietary architectural frameworks to rapidly deploy secure, customized solutions. Each blueprint below is a production-hardened pattern, ready to adapt to your environment.</p>
+      </div>
+
+      <!-- Sovereign -->
+      <article class="case">
+        <div class="case-side">
+          <div class="case-name">Project Sovereign</div>
+          <div class="case-domain">Privacy-First Multimodal RAG</div>
+          <h3>Absolute data sovereignty over fragmented, unstructured data.</h3>
+          <p class="case-lead">Built to vectorize and retrieve highly fragmented, unstructured data — audio, scanned PDFs, long-form documents — entirely via local model inference, ensuring proprietary enterprise data never leaves your environment.</p>
+          <div class="case-metric">
+            <span class="case-metric-num">0</span>
+            <span class="case-metric-label">bytes of proprietary data sent to third-party AI services — all inference runs in-boundary</span>
+          </div>
+        </div>
+        <div class="case-highlights">
+          <div class="hl">
+            <span class="hl-mark"><svg viewBox="0 0 24 24"><polyline points="4 12 10 18 20 6"/></svg></span>
+            <div><span class="hl-label">Zero-egress inference</span><span class="hl-text">Embedding and generation run on local / in-VPC models; the cloud is touched only for optional OCR and voice synthesis, never for proprietary content.</span></div>
+          </div>
+          <div class="hl">
+            <span class="hl-mark"><svg viewBox="0 0 24 24"><polyline points="4 12 10 18 20 6"/></svg></span>
+            <div><span class="hl-label">Multimodal ingestion</span><span class="hl-text">OCR for scanned PDFs, speech-to-text for audio, plus document and web crawlers — all normalized into a single, deduplicated vector store.</span></div>
+          </div>
+          <div class="hl">
+            <span class="hl-mark"><svg viewBox="0 0 24 24"><polyline points="4 12 10 18 20 6"/></svg></span>
+            <div><span class="hl-label">Cross-lingual retrieval</span><span class="hl-text">A single query surfaces relevant evidence across languages and modalities, with a two-stage vector-search-then-rerank pipeline for precision.</span></div>
+          </div>
+          <div class="hl">
+            <span class="hl-mark"><svg viewBox="0 0 24 24"><polyline points="4 12 10 18 20 6"/></svg></span>
+            <div><span class="hl-label">Grounded-or-silent generation</span><span class="hl-text">Every answer cites its source passages; when no relevant evidence is retrieved, the system says so rather than hallucinate.</span></div>
+          </div>
+        </div>
+      </article>
+
+      <!-- Veritas -->
+      <article class="case">
+        <div class="case-side">
+          <div class="case-name">Project Veritas</div>
+          <div class="case-domain">The Proprietary Fingerprinting Ledger</div>
+          <h3>Evidence-driven discovery pipelines that turn chaos into structured insight.</h3>
+          <p class="case-lead">A serverless, event-driven architecture designed to convert chaotic external data feeds into structured insights — with a proprietary fingerprinting ledger that reduces steady-state inference cost by ~95% while maintaining strict data provenance.</p>
+          <div class="case-metric">
+            <span class="case-metric-num">~95%</span>
+            <span class="case-metric-label">reduction in steady-state LLM cost on unchanged records via the fingerprinting ledger</span>
+          </div>
+        </div>
+        <div class="case-highlights">
+          <div class="hl">
+            <span class="hl-mark"><svg viewBox="0 0 24 24"><polyline points="4 12 10 18 20 6"/></svg></span>
+            <div><span class="hl-label">Tiered extraction ladder</span><span class="hl-text">Deterministic, source-specific adapters run first; generic LLM extraction is a logged last resort — maximizing fidelity and minimizing cost.</span></div>
+          </div>
+          <div class="hl">
+            <span class="hl-mark"><svg viewBox="0 0 24 24"><polyline points="4 12 10 18 20 6"/></svg></span>
+            <div><span class="hl-label">Two-stage matching</span><span class="hl-text">Cheap signal scoring delivers wide recall; the model is invoked only on the genuinely uncertain set — and must cite evidence or return no-match.</span></div>
+          </div>
+          <div class="hl">
+            <span class="hl-mark"><svg viewBox="0 0 24 24"><polyline points="4 12 10 18 20 6"/></svg></span>
+            <div><span class="hl-label">Fingerprinting ledger</span><span class="hl-text">Content-hash fingerprints detect new, edited, and unchanged records — bypassing scoring, inference, and persistence entirely for steady-state data.</span></div>
+          </div>
+          <div class="hl">
+            <span class="hl-mark"><svg viewBox="0 0 24 24"><polyline points="4 12 10 18 20 6"/></svg></span>
+            <div><span class="hl-label">Evidence as data</span><span class="hl-text">Every machine judgment is written next to the value it justifies — fully inspectable, replayable, and gated by an audit feedback loop.</span></div>
+          </div>
+        </div>
+      </article>
+
+      <!-- LearnRepeat -->
+      <article class="case">
+        <div class="case-side">
+          <div class="case-name">Project LearnRepeat</div>
+          <div class="case-domain">Offline-First Edge Synchronization</div>
+          <h3>Enterprise mobility and data resiliency at the zero-connectivity edge.</h3>
+          <p class="case-lead">A masterclass in enterprise mobility and data resiliency. Utilizes local-first SQLite architectures and custom monotonic synchronization to guarantee zero data loss and uninterrupted business logic in zero-connectivity environments.</p>
+          <div class="case-metric">
+            <span class="case-metric-num">Zero</span>
+            <span class="case-metric-label">data loss across disconnected operation and reconnection cycles</span>
+          </div>
+        </div>
+        <div class="case-highlights">
+          <div class="hl">
+            <span class="hl-mark"><svg viewBox="0 0 24 24"><polyline points="4 12 10 18 20 6"/></svg></span>
+            <div><span class="hl-label">Local-first data plane</span><span class="hl-text">Full read/write capability with no network dependency — business logic never blocks on connectivity.</span></div>
+          </div>
+          <div class="hl">
+            <span class="hl-mark"><svg viewBox="0 0 24 24"><polyline points="4 12 10 18 20 6"/></svg></span>
+            <div><span class="hl-label">Monotonic sync protocol</span><span class="hl-text">A custom, ordering-preserving reconciliation guarantees no lost or reordered writes when devices rejoin the network.</span></div>
+          </div>
+          <div class="hl">
+            <span class="hl-mark"><svg viewBox="0 0 24 24"><polyline points="4 12 10 18 20 6"/></svg></span>
+            <div><span class="hl-label">Idempotent replay</span><span class="hl-text">Every synchronization operation is replayable and reversible, so partial failures never corrupt the store.</span></div>
+          </div>
+          <div class="hl">
+            <span class="hl-mark"><svg viewBox="0 0 24 24"><polyline points="4 12 10 18 20 6"/></svg></span>
+            <div><span class="hl-label">Edge-to-core convergence</span><span class="hl-text">Deterministic convergence on reconnect means the edge and the core always agree on the final state.</span></div>
+          </div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- Capabilities -->
+  <section class="section-pad" data-tab="services">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">Technical Depth</span>
+        <h2 class="section-heading">A Full-Stack Architecture Practice</h2>
+        <p class="section-intro">From CXO target-state strategy down to the embedding model and the IAM policy — we operate across the entire enterprise stack.</p>
+      </div>
+      <div class="cap-grid">
+        <div class="cap-col">
+          <h4>Cloud &amp; Platform</h4>
+          <ul>
+            <li>AWS · GCP · Azure</li>
+            <li>Serverless &amp; event-driven</li>
+            <li>Terraform / IaC</li>
+            <li>Containers &amp; Cloud Run</li>
+            <li>CI/CD &amp; Workload Identity</li>
+          </ul>
+        </div>
+        <div class="cap-col">
+          <h4>AI &amp; ML</h4>
+          <ul>
+            <li>Agentic &amp; compound AI</li>
+            <li>Multimodal RAG</li>
+            <li>Local &amp; in-VPC inference</li>
+            <li>Vertex AI &amp; LLM gateways</li>
+            <li>Golden-corpus evaluation</li>
+          </ul>
+        </div>
+        <div class="cap-col">
+          <h4>Data &amp; Retrieval</h4>
+          <ul>
+            <li>Postgres &amp; pgvector</li>
+            <li>Vector stores &amp; embeddings</li>
+            <li>OCR, STT &amp; ingestion</li>
+            <li>Provenance &amp; evidence ledgers</li>
+            <li>BigQuery analytics sinks</li>
+          </ul>
+        </div>
+        <div class="cap-col">
+          <h4>Governance</h4>
+          <ul>
+            <li>Architecture Review Boards</li>
+            <li>Guardrails &amp; HITL controls</li>
+            <li>Typed error &amp; audit contracts</li>
+            <li>Secret management &amp; rotation</li>
+            <li>Compliance-ready posture</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pedigree -->
+  <section id="pedigree" class="section-pad" data-tab="pedigree">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">About RKAS Inc.</span>
+        <h2 class="section-heading">The Architects Behind the Enterprise</h2>
+      </div>
+      <div class="pedigree-grid">
+        <div class="pedigree-block">
+          <h3>The Pedigree</h3>
+          <p>RKAS Inc. is a specialized collective of enterprise architects, cloud engineers, and AI strategists. With decades of combined experience modernizing the infrastructure of the world's largest logistics, retail, and financial institutions, we recognized a critical gap in the market: innovation was outpacing governance.</p>
+        </div>
+        <div class="pedigree-block">
+          <h3>The Philosophy</h3>
+          <p>We were founded to bridge that gap. We do not just implement the latest AI models; we architect the resilient, secure, and highly scalable enterprise foundations required to run them.</p>
+          <p class="pedigree-quote">In the enterprise sector, grounding beats fluency, and innovation cannot outpace security.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Insights -->
+  <section id="insights" class="section-pad" data-tab="insights">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">Insights</span>
+        <h2 class="section-heading">Field Notes on Enterprise AI &amp; Architecture</h2>
+        <p class="section-intro">Practical perspectives from our architecture practice — on grounding AI for the enterprise, controlling inference cost, and governing what you ship.</p>
+      </div>
+      <div class="insights-grid">
+        <a class="insight-card" href="insights/grounding-beats-fluency.html">
+          <span class="insight-cat">AI Governance</span>
+          <h3>Grounding Beats Fluency: The Enterprise AI Evidence Layer</h3>
+          <p>A model that sounds right is a liability if it can't show why. Why evidence belongs in the data plane — not the logs — and the pattern that makes every AI judgment inspectable.</p>
+          <div class="insight-meta">
+            <span>8 min read</span>
+            <span class="insight-link">Read<svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+          </div>
+        </a>
+        <a class="insight-card" href="insights/fingerprinting-ledger-llm-cost.html">
+          <span class="insight-cat">Cost Architecture</span>
+          <h3>The Fingerprinting Ledger: Cutting Steady-State LLM Cost by ~95%</h3>
+          <p>Continuous AI pipelines quietly re-process the same unchanged data on every run. The highest-leverage cost lever is to stop paying to re-decide what hasn't changed.</p>
+          <div class="insight-meta">
+            <span>7 min read</span>
+            <span class="insight-link">Read<svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+          </div>
+        </a>
+        <a class="insight-card" href="insights/architecture-review-boards-genai.html">
+          <span class="insight-cat">AI Governance</span>
+          <h3>Architecture Review Boards for GenAI</h3>
+          <p>GenAI quietly invalidates three core assumptions of the traditional ARB. How to extend enterprise governance into AI without killing delivery velocity.</p>
+          <div class="insight-meta">
+            <span>9 min read</span>
+            <span class="insight-link">Read<svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Whitepapers -->
+  <!--
+    HOW TO ADD A WHITEPAPER (see whitepapers/README.md for detail):
+    1. Drop the PDF into site/assets/ (e.g. assets/RKAS_Inc_WP11_My_Topic.pdf).
+    2. Duplicate one .wp-card block below.
+    3. Edit: .wp-cat (number · category), h3 (title), .wp-challenge (the hook),
+       .wp-summary (executive summary). Keep the <span class="wp-label"> labels.
+    4. Update .wp-specs (page count).
+    5. On the .wp-download button set:
+         data-pdf="assets/RKAS_Inc_WP11_My_Topic.pdf"   (path to the file)
+         data-title="Short Title For The Lead Record"  (recorded with the captured email)
+    The corporate-email gate + Netlify lead capture + auto-download is wired
+    automatically to any button with class "wp-download".
+  -->
+  <section id="whitepapers" class="section-pad" data-tab="whitepapers">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">Whitepapers</span>
+        <h2 class="section-heading">In-Depth Architecture Whitepapers</h2>
+        <p class="section-intro">Read the executive summary below. Download the full whitepaper with your corporate email — the PDF starts automatically.</p>
+      </div>
+      <div class="wp-grid">
+
+        <!-- WP01 -->
+        <article class="wp-card">
+          <span class="wp-cat">Whitepaper 01 · RAG Architecture</span>
+          <h3>The RAG Illusion: Why Retrieval Accuracy Doesn't Guarantee Faithfulness</h3>
+          <p class="wp-challenge"><span class="wp-label">The Challenge</span>Your enterprise AI might be retrieving the correct documents, but it is answering the wrong questions. Discover the architectural fix for hallucinated structures.</p>
+          <p class="wp-summary"><span class="wp-label">Executive Summary</span>In enterprise Retrieval-Augmented Generation (RAG) systems, retrieving the correct topical context is only half the battle. A common, silent failure occurs when an LLM is asked a multi-part question: the system retrieves topically relevant passages, but the LLM maps the structure of the question onto loosely related facts, creating a highly confident, entirely misattributed answer. This whitepaper details the implementation of Query Decomposition and Cross-Encoder Re-ranking to enforce absolute structural faithfulness in production AI.</p>
+          <div class="wp-foot">
+            <span class="wp-specs">PDF · 3 pages</span>
+            <button type="button" class="wp-download" data-pdf="assets/RKAS_Inc_WP01_RAG_Faithfulness.pdf" data-title="The RAG Illusion: Retrieval Accuracy vs. Faithfulness">
+              <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              Download PDF
+            </button>
+          </div>
+        </article>
+
+        <!-- WP02 -->
+        <article class="wp-card">
+          <span class="wp-cat">Whitepaper 02 · Cost Architecture</span>
+          <h3>The 95% LLM Cost Reduction Strategy: Semantic Fingerprinting</h3>
+          <p class="wp-challenge"><span class="wp-label">The Challenge</span>Scaling AI pipelines can bankrupt an IT budget. Learn how a cryptographic ledger approach to unstructured data reduced steady-state LLM token costs by 95%.</p>
+          <p class="wp-summary"><span class="wp-label">Executive Summary</span>Continuous data ingestion pipelines (such as competitive monitoring or vendor scraping) routinely re-process unchanged or slightly modified data, burning massive LLM token budgets. By implementing an edge-level 'Semantic Fingerprinting' ledger, enterprises can bypass the LLM entirely for 95% of steady-state data volume. This paper outlines the architecture of an intelligent bypass mechanism that relies on noun-chunk hashing to isolate meaningful semantic changes from formatting noise.</p>
+          <div class="wp-foot">
+            <span class="wp-specs">PDF · 2 pages</span>
+            <button type="button" class="wp-download" data-pdf="assets/RKAS_Inc_WP02_Semantic_Fingerprinting.pdf" data-title="The 95% LLM Cost Reduction Strategy: Semantic Fingerprinting">
+              <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              Download PDF
+            </button>
+          </div>
+        </article>
+
+        <!-- WP03 -->
+        <article class="wp-card">
+          <span class="wp-cat">Whitepaper 03 · RAG Architecture</span>
+          <h3>Architecting Multilingual AI: The Hidden Traps of Cross-Lingual RAG</h3>
+          <p class="wp-challenge"><span class="wp-label">The Challenge</span>Bilingual AI requires more than a multilingual embedding model. Discover why cross-encoders silently destroy non-English retrieval and how to fix it.</p>
+          <p class="wp-summary"><span class="wp-label">Executive Summary</span>Global enterprises deploying multilingual AI assistants often discover that their systems silently fail when handling cross-lingual queries. Even with state-of-the-art multilingual embedding models, downstream components like Cross-Encoder re-rankers are notoriously English-biased, actively demoting perfectly accurate foreign-language source documents. This whitepaper exposes the asymmetrical language traps in enterprise RAG and provides a blueprint for resilient multilingual orchestration.</p>
+          <div class="wp-foot">
+            <span class="wp-specs">PDF · 2 pages</span>
+            <button type="button" class="wp-download" data-pdf="assets/RKAS_Inc_WP03_Multilingual_RAG.pdf" data-title="Architecting Multilingual AI: Cross-Lingual RAG">
+              <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              Download PDF
+            </button>
+          </div>
+        </article>
+
+        <!-- WP04 -->
+        <article class="wp-card">
+          <span class="wp-cat">Whitepaper 04 · Reliability Engineering</span>
+          <h3>Orchestrating LLM Reliability: Circuit Breakers and Token Buckets</h3>
+          <p class="wp-challenge"><span class="wp-label">The Challenge</span>Don't let a third-party LLM rate limit take down your entire enterprise platform. Learn how to architect centralized API throttling.</p>
+          <p class="wp-summary"><span class="wp-label">Executive Summary</span>When scaling GenAI, relying on an SDK's built-in retry logic is a recipe for disaster. If a cloud provider returns a 'Quota Exhausted' 429 error, naive SDKs will continuously retry, exhausting connection pools and causing cascading system failures. This whitepaper explains how to build a centralized, asynchronous LLM Gateway utilizing token buckets and circuit breakers to guarantee platform stability.</p>
+          <div class="wp-foot">
+            <span class="wp-specs">PDF · 2 pages</span>
+            <button type="button" class="wp-download" data-pdf="assets/RKAS_Inc_WP04_LLM_Throttling.pdf" data-title="Orchestrating LLM Reliability: Circuit Breakers and Token Buckets">
+              <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              Download PDF
+            </button>
+          </div>
+        </article>
+
+        <!-- WP05 -->
+        <article class="wp-card">
+          <span class="wp-cat">Whitepaper 05 · Platform Engineering</span>
+          <h3>The Silent Failure of AI Gateways: Cloud Run and Async Event Loops</h3>
+          <p class="wp-challenge"><span class="wp-label">The Challenge</span>Is your asynchronous Python API randomly crashing under LLM load? The culprit is likely a synchronous SDK call blocking your event loop.</p>
+          <p class="wp-summary"><span class="wp-label">Executive Summary</span>Modern enterprise APIs rely heavily on asynchronous frameworks (like FastAPI). However, integrating third-party AI SDKs that execute synchronous HTTP calls can completely block the ASGI event loop. This leads to dropped connections, failed Kubernetes/Cloud Run liveness probes, and silent container restarts. We detail the architectural patterns required to safely wrap blocking AI calls in executor threads.</p>
+          <div class="wp-foot">
+            <span class="wp-specs">PDF · 2 pages</span>
+            <button type="button" class="wp-download" data-pdf="assets/RKAS_Inc_WP05_Async_Event_Loops.pdf" data-title="The Silent Failure of AI Gateways: Async Event Loops">
+              <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              Download PDF
+            </button>
+          </div>
+        </article>
+
+        <!-- WP06 -->
+        <article class="wp-card">
+          <span class="wp-cat">Whitepaper 06 · Data Engineering</span>
+          <h3>Data Layer Explosions: The Hidden Costs of GIN Indexes in Postgres</h3>
+          <p class="wp-challenge"><span class="wp-label">The Challenge</span>Adding a GIN index to speed up vector or text search? You might be unknowingly destroying your database's write performance.</p>
+          <p class="wp-summary"><span class="wp-label">Executive Summary</span>As enterprises scale AI applications, Generalized Inverted Indexes (GIN) are frequently added to PostgreSQL for full-text and array search capabilities. While they dramatically accelerate read operations, they introduce catastrophic overhead on DELETE operations. This whitepaper analyzes a production incident where a simple data purge took 11 minutes and saturated connection pools, and presents architectural alternatives for managing AI indexing.</p>
+          <div class="wp-foot">
+            <span class="wp-specs">PDF · 2 pages</span>
+            <button type="button" class="wp-download" data-pdf="assets/RKAS_Inc_WP06_GIN_Index_Explosion.pdf" data-title="Data Layer Explosions: GIN Indexes in Postgres">
+              <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              Download PDF
+            </button>
+          </div>
+        </article>
+
+        <!-- WP07 -->
+        <article class="wp-card">
+          <span class="wp-cat">Whitepaper 07 · RAG Architecture</span>
+          <h3>Audio-First AI: Overcoming the Transcription Bottleneck in Enterprise RAG</h3>
+          <p class="wp-challenge"><span class="wp-label">The Challenge</span>A RAG system is only as good as its text. Learn how to architect audio ingestion pipelines that eliminate hallucinated transcriptions.</p>
+          <p class="wp-summary"><span class="wp-label">Executive Summary</span>Ingesting meeting recordings, earnings calls, or lectures into an enterprise RAG system requires transcription. However, advanced models like Whisper are highly susceptible to hallucinations when faced with poor acoustics or background noise. A single hallucinated transcription permanently poisons the vector database. This paper outlines an audio-first ingestion architecture that bounds memory usage and sanitizes transcriptions before vectorization.</p>
+          <div class="wp-foot">
+            <span class="wp-specs">PDF · 3 pages</span>
+            <button type="button" class="wp-download" data-pdf="assets/RKAS_Inc_WP07_Audio_First_RAG.pdf" data-title="Audio-First AI: The Transcription Bottleneck">
+              <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              Download PDF
+            </button>
+          </div>
+        </article>
+
+        <!-- WP08 -->
+        <article class="wp-card">
+          <span class="wp-cat">Whitepaper 08 · Data Architecture</span>
+          <h3>Defensive Data Modeling in the AI Era: Facts vs. AI Opinions</h3>
+          <p class="wp-challenge"><span class="wp-label">The Challenge</span>If your database schema doesn't differentiate between hard facts and AI-generated inferences, your data integrity is at risk.</p>
+          <p class="wp-summary"><span class="wp-label">Executive Summary</span>In traditional software, a database record represents truth. In AI-native applications, records are a mix of immutable facts and probabilistic AI opinions. Storing an LLM's classification directly on a core entity table inevitably leads to multi-tenant data corruption and prevents historical auditing. This paper advocates for a defensive data modeling paradigm: isolating AI judgments into dedicated 'Evidence Ledgers.'</p>
+          <div class="wp-foot">
+            <span class="wp-specs">PDF · 2 pages</span>
+            <button type="button" class="wp-download" data-pdf="assets/RKAS_Inc_WP08_AI_Data_Modeling.pdf" data-title="Defensive Data Modeling: Facts vs. AI Opinions">
+              <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              Download PDF
+            </button>
+          </div>
+        </article>
+
+        <!-- WP09 -->
+        <article class="wp-card">
+          <span class="wp-cat">Whitepaper 09 · AI Governance</span>
+          <h3>Grounding Beats Fluency: Designing the AI Evidence Drawer</h3>
+          <p class="wp-challenge"><span class="wp-label">The Challenge</span>C-suite executives don't trust black-box AI. Learn how to architect UI and data layers that cryptographically prove every LLM assertion.</p>
+          <p class="wp-summary"><span class="wp-label">Executive Summary</span>Enterprise adoption of Generative AI is blocked by a lack of trust. If a system classifies a contract as non-compliant or flags a candidate as a perfect fit, it must explain why. We introduce the 'Evidence Drawer' pattern: a structural contract between the data layer and the UI that forces every AI-derived value to be rendered alongside the exact source text snippet it was grounded upon.</p>
+          <div class="wp-foot">
+            <span class="wp-specs">PDF · 2 pages</span>
+            <button type="button" class="wp-download" data-pdf="assets/RKAS_Inc_WP09_Evidence_Driven_Intelligence.pdf" data-title="Grounding Beats Fluency: The AI Evidence Drawer">
+              <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              Download PDF
+            </button>
+          </div>
+        </article>
+
+        <!-- WP10 -->
+        <article class="wp-card">
+          <span class="wp-cat">Whitepaper 10 · Architecture</span>
+          <h3>Decoupling AI: When to Move from In-Process to Event-Driven Pipelines</h3>
+          <p class="wp-challenge"><span class="wp-label">The Challenge</span>Monolithic AI pipelines hit a wall when orchestrating hundreds of external tasks. Discover the tipping point for migrating to Pub/Sub.</p>
+          <p class="wp-summary"><span class="wp-label">Executive Summary</span>Startups often build AI data ingestion as a linear, in-process script. As the system scales to handle hundreds of concurrent web crawls, API fetches, and LLM extractions, this monolithic approach results in cascading transaction failures and stalled HTTP requests. This whitepaper charts the architectural evolution from a fragile synchronous loop to a resilient, asynchronous Pub/Sub event-driven architecture.</p>
+          <div class="wp-foot">
+            <span class="wp-specs">PDF · 2 pages</span>
+            <button type="button" class="wp-download" data-pdf="assets/RKAS_Inc_WP10_Event_Driven_Scouting.pdf" data-title="Decoupling AI: In-Process to Event-Driven Pipelines">
+              <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              Download PDF
+            </button>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Whitepaper download modal (corporate-email gate) -->
+  <div class="modal-overlay" id="wp-modal" role="dialog" aria-modal="true" aria-labelledby="wp-modal-title">
+    <div class="modal" id="wp-modal-card">
+      <button type="button" class="modal-close" id="wp-modal-close" aria-label="Close">
+        <svg viewBox="0 0 24 24" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+
+      <form class="modal-form" id="wp-form" novalidate>
+        <span class="modal-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        </span>
+        <h3 id="wp-modal-title">Download the whitepaper</h3>
+        <p class="modal-sub">Enter your corporate email to download <span class="wp-target" id="wp-modal-target">the whitepaper</span>. Your download begins immediately.</p>
+        <div class="field">
+          <label for="wp-email">Corporate Email</label>
+          <input id="wp-email" type="email" name="email" placeholder="you@company.com" autocomplete="email" />
+        </div>
+        <div class="wp-captcha" id="wp-captcha"></div>
+        <p class="modal-error" id="wp-error" role="alert"></p>
+        <button type="submit" class="modal-submit" id="wp-submit">Download PDF</button>
+        <p class="modal-note">We use this only to share relevant architecture insights. Free email providers (Gmail, Outlook, etc.) aren't accepted.</p>
+      </form>
+
+      <div class="modal-success" aria-live="polite">
+        <span class="check" aria-hidden="true"><svg viewBox="0 0 24 24"><polyline points="4 12 10 18 20 6"/></svg></span>
+        <h3>Your download is starting</h3>
+        <p>If it doesn't begin automatically, <a href="#" id="wp-manual" style="color:var(--orange-bright);text-decoration:none;">click here</a>.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Contact -->
+  <section id="contact" class="section-pad alt-surface" data-tab="contact">
+    <div class="container">
+      <div class="contact">
+        <div class="contact-header">
+          <h2>Initiate a Project</h2>
+          <p>Tell us about your infrastructure challenge and we'll prepare a strategy briefing.</p>
+        </div>
+
+        <form class="form" id="contact-form" method="POST" action="thanks.html" novalidate>
+          <!-- Honeypot: bots fill this; humans never see it -->
+          <input type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;opacity:0;height:0;width:0;" />
+
+          <div class="field">
+            <label for="name">Full Name<span class="req">*</span></label>
+            <input id="name" type="text" name="name" placeholder="Your full name" required autocomplete="name" />
+          </div>
+
+          <div class="field">
+            <label for="email">Corporate Email<span class="req">*</span></label>
+            <input id="email" type="email" name="email" placeholder="you@company.com" required autocomplete="email" />
+          </div>
+
+          <div class="field">
+            <label for="company">Company &amp; Role<span class="req">*</span></label>
+            <input id="company" type="text" name="company-role" placeholder="Acme Corp — VP, Enterprise Architecture" required autocomplete="organization" />
+          </div>
+
+          <div class="form-row">
+            <div class="field">
+              <label for="objective">Primary Objective</label>
+              <select id="objective" name="primary-objective">
+                <option value="" disabled selected>Select an objective</option>
+                <option>Cloud Migration &amp; Modernization</option>
+                <option>Enterprise AI Integration</option>
+                <option>Architecture Review &amp; Governance</option>
+                <option>Custom System Architecture</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="timeline">Timeline</label>
+              <select id="timeline" name="timeline">
+                <option value="" disabled selected>Select a timeline</option>
+                <option>Immediate (0–3 Months)</option>
+                <option>Upcoming (3–6 Months)</option>
+                <option>Exploratory</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="message">Infrastructure Challenge</label>
+            <textarea id="message" name="message" placeholder="Briefly describe your current infrastructure challenge..."></textarea>
+          </div>
+
+          <div class="wp-captcha" id="contact-captcha" style="margin-top:4px;"></div>
+          <p class="modal-error" id="contact-msg" role="alert"></p>
+          <button class="submit" type="submit">Request Strategy Briefing</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <div class="nav-left">
+            <img src="assets/logo.jpg" alt="" class="nav-logo" />
+            <span class="nav-name">RKAS Inc.</span>
+          </div>
+          <p>Architecting the AI-driven enterprise — resilient cloud foundations and governed, production-grade AI systems for the Fortune 500.</p>
+        </div>
+        <div class="footer-cols">
+          <div class="footer-col">
+            <h5>Services</h5>
+            <a href="#services">AI-Native Architecture</a>
+            <a href="#services">Cloud Transformation</a>
+            <a href="#services">AI Governance</a>
+          </div>
+          <div class="footer-col">
+            <h5>Accelerators</h5>
+            <a href="#accelerators">Project Sovereign</a>
+            <a href="#accelerators">Project Veritas</a>
+            <a href="#accelerators">Project LearnRepeat</a>
+          </div>
+          <div class="footer-col">
+            <h5>Insights</h5>
+            <a href="insights/grounding-beats-fluency.html">Grounding Beats Fluency</a>
+            <a href="insights/fingerprinting-ledger-llm-cost.html">The Fingerprinting Ledger</a>
+            <a href="insights/architecture-review-boards-genai.html">ARBs for GenAI</a>
+            <a href="#whitepapers">Whitepapers</a>
+          </div>
+          <div class="footer-col">
+            <h5>Company</h5>
+            <a href="#principles">How We Engineer</a>
+            <a href="#pedigree">Our Pedigree</a>
+            <a href="#contact">Request Briefing</a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>&copy; <span id="year"></span> RKAS Inc. All rights reserved.</span>
+        <span>Grounding beats fluency. Innovation never outpaces security.</span>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    /* ======================================================================
+       FORM BACKEND (FormSubmit — works on static hosts like GitHub Pages)
+       Replace the value below with EITHER your email, OR (recommended) the
+       FormSubmit "hashed alias" you receive after the one-time activation,
+       so your address isn't exposed in this public source.
+       Both the contact form and the whitepaper capture use this one value.
+       ====================================================================== */
+    /* hCaptcha site key (hCaptcha's public TEST key — always passes, fine for now).
+       Replace with your real key from dashboard.hcaptcha.com later; '' disables it. */
+    var CAPTCHA_SITEKEY = '10000000-ffff-ffff-ffff-000000000001';
+    function captchaEnabled() { return !!CAPTCHA_SITEKEY; }
+
+    /* ---- Contact form ----
+       DEMO MODE: validates the fields + the human (hCaptcha) check, then shows the
+       confirmation page. It does NOT send the message anywhere — there is no backend
+       and no destination address in this code. Swap in a real handler later. */
+    (function () {
+      var cf = document.getElementById('contact-form');
+      if (!cf) return;
+      cf.setAttribute('action', 'thanks.html'); // no-JS fallback
+      var box = document.getElementById('contact-captcha');
+      var msg = document.getElementById('contact-msg');
+      var widgetId = null;
+
+      function render() {
+        if (!captchaEnabled() || !box || widgetId !== null) return;
+        if (window.hcaptcha && typeof hcaptcha.render === 'function') {
+          try { widgetId = hcaptcha.render(box, { sitekey: CAPTCHA_SITEKEY }); } catch (e) {}
+        } else { setTimeout(render, 200); }
+      }
+      // Render only once the Contact tab is visible (hCaptcha can't size in a hidden box).
+      function onHash() { if (location.hash === '#contact') render(); }
+      window.addEventListener('hashchange', onHash);
+      onHash();
+      cf.addEventListener('focusin', render);
+
+      cf.addEventListener('submit', function (e) {
+        e.preventDefault();
+        if (msg) msg.textContent = '';
+        if (!cf.checkValidity()) { cf.reportValidity(); return; }
+        var honey = cf.querySelector('[name="_honey"]');
+        if (honey && honey.value) { window.location.href = 'thanks.html'; return; }
+        if (captchaEnabled()) {
+          var token = (window.hcaptcha && widgetId !== null) ? (hcaptcha.getResponse(widgetId) || '') : '';
+          if (!token) { if (msg) msg.textContent = 'Please complete the “I’m human” check.'; return; }
+        }
+        // DEMO: assume the briefing request was sent.
+        window.location.href = 'thanks.html';
+      });
+    })();
+
+    (function () {
+      var toggle = document.querySelector('.nav-toggle');
+      var links = document.querySelector('.nav-links');
+      if (!toggle || !links) return;
+      toggle.addEventListener('click', function () {
+        var open = links.classList.toggle('open');
+        toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+      });
+      links.addEventListener('click', function (e) {
+        if (e.target.tagName === 'A') {
+          links.classList.remove('open');
+          toggle.setAttribute('aria-expanded', 'false');
+        }
+      });
+    })();
+
+    /* ---- Tab navigation ---- */
+    (function () {
+      // Map every hash used across the site to a top-level tab.
+      var ALIAS = {
+        home: 'home', services: 'services', principles: 'services', capabilities: 'services',
+        accelerators: 'accelerators', insights: 'insights', whitepapers: 'whitepapers',
+        pedigree: 'pedigree', contact: 'contact'
+      };
+      var sections = document.querySelectorAll('section[data-tab]');
+      var navlinks = document.querySelectorAll('.nav-links a[data-tab]');
+
+      function show(name) {
+        var id = ALIAS[name] || 'home';
+        sections.forEach(function (s) {
+          s.classList.toggle('active', s.getAttribute('data-tab') === id);
+        });
+        navlinks.forEach(function (a) {
+          a.classList.toggle('active', a.getAttribute('data-tab') === id);
+        });
+        window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+      }
+
+      window.addEventListener('hashchange', function () {
+        show((location.hash || '#home').slice(1));
+      });
+
+      // Force a switch even when the hash doesn't change (e.g. re-click current tab).
+      document.addEventListener('click', function (e) {
+        var a = e.target.closest && e.target.closest('a[href^="#"]');
+        if (!a) return;
+        var name = a.getAttribute('href').slice(1);
+        if (ALIAS[name] && ('#' + name) === location.hash) show(name);
+      });
+
+      show((location.hash || '#home').slice(1));
+    })();
+
+    /* ---- Whitepaper gated download ---- */
+    (function () {
+      // Common free / personal email providers — corporate addresses only.
+      var FREE_DOMAINS = [
+        'gmail.com','googlemail.com','yahoo.com','yahoo.co.uk','yahoo.co.in','yahoo.fr','yahoo.de',
+        'ymail.com','rocketmail.com','hotmail.com','hotmail.co.uk','hotmail.fr','outlook.com','outlook.fr',
+        'live.com','live.co.uk','msn.com','aol.com','aim.com','icloud.com','me.com','mac.com',
+        'proton.me','protonmail.com','pm.me','gmx.com','gmx.net','gmx.de','mail.com','email.com',
+        'yandex.com','yandex.ru','zoho.com','zohomail.com','fastmail.com','hey.com','tutanota.com',
+        'tuta.io','tutamail.com','mail.ru','inbox.ru','list.ru','bk.ru','qq.com','163.com','126.com',
+        'sina.com','naver.com','daum.net','hanmail.net','hushmail.com','inbox.com','gawab.com',
+        'comcast.net','verizon.net','att.net','sbcglobal.net','bellsouth.net','cox.net','charter.net',
+        'btinternet.com','web.de','t-online.de','freenet.de','libero.it','virgilio.it','orange.fr',
+        'free.fr','laposte.net','sfr.fr','wanadoo.fr','rediffmail.com','ig.com.br','uol.com.br'
+      ];
+      var EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+      function validate(email) {
+        email = (email || '').trim().toLowerCase();
+        if (!email) return 'Please enter your email address.';
+        if (!EMAIL_RE.test(email)) return 'Please enter a valid email address.';
+        var domain = email.split('@')[1];
+        for (var i = 0; i < FREE_DOMAINS.length; i++) {
+          var d = FREE_DOMAINS[i];
+          // exact match, or a subdomain of a free provider (e.g. us.gmail.com)
+          if (domain === d || (domain.length > d.length && domain.slice(-(d.length + 1)) === '.' + d)) {
+            return 'Please use your corporate email address — free providers aren’t accepted.';
+          }
+        }
+        return null; // valid
+      }
+
+      var overlay = document.getElementById('wp-modal');
+      var card = document.getElementById('wp-modal-card');
+      var form = document.getElementById('wp-form');
+      var input = document.getElementById('wp-email');
+      var errEl = document.getElementById('wp-error');
+      var submitBtn = document.getElementById('wp-submit');
+      var targetEl = document.getElementById('wp-modal-target');
+      var manualLink = document.getElementById('wp-manual');
+      if (!overlay || !form) return;
+
+      var current = { pdf: null, title: null };
+      var lastFocus = null;
+
+      // ---- hCaptcha (rendered lazily when the modal first opens) ----
+      var captchaContainer = document.getElementById('wp-captcha');
+      var wpWidgetId = null;
+
+      function renderCaptcha() {
+        if (!captchaEnabled() || !captchaContainer) return;
+        if (wpWidgetId !== null) { try { hcaptcha.reset(wpWidgetId); } catch (e) {} return; }
+        if (window.hcaptcha && typeof hcaptcha.render === 'function') {
+          try { wpWidgetId = hcaptcha.render(captchaContainer, { sitekey: CAPTCHA_SITEKEY }); }
+          catch (e) { /* not ready or already rendered */ }
+        } else {
+          setTimeout(renderCaptcha, 200); // api.js still loading
+        }
+      }
+      function captchaToken() {
+        if (!captchaEnabled()) return 'ok';
+        if (window.hcaptcha && wpWidgetId !== null) {
+          try { return hcaptcha.getResponse(wpWidgetId) || ''; } catch (e) { return ''; }
+        }
+        return '';
+      }
+      function resetCaptcha() {
+        if (captchaEnabled() && window.hcaptcha && wpWidgetId !== null) {
+          try { hcaptcha.reset(wpWidgetId); } catch (e) {}
+        }
+      }
+
+      function openModal(pdf, title, trigger) {
+        current.pdf = pdf;
+        current.title = title || 'the whitepaper';
+        targetEl.textContent = current.title;
+        errEl.textContent = '';
+        input.classList.remove('invalid');
+        input.value = '';
+        card.classList.remove('done');
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Download PDF';
+        lastFocus = trigger || null;
+        overlay.classList.add('open');
+        document.body.style.overflow = 'hidden';
+        renderCaptcha();
+        setTimeout(function () { input.focus(); }, 50);
+      }
+
+      function closeModal() {
+        overlay.classList.remove('open');
+        document.body.style.overflow = '';
+        if (lastFocus && lastFocus.focus) lastFocus.focus();
+      }
+
+      function startDownload(pdf) {
+        var a = document.createElement('a');
+        a.href = pdf;
+        a.download = pdf.split('/').pop();
+        a.rel = 'noopener';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+      }
+
+      // DEMO MODE: no backend. The email + captcha are validated for the UX, but the
+      // lead is NOT sent anywhere. We just resolve so the success state + download run.
+      function captureLead(title) {
+        return Promise.resolve();
+      }
+
+      // Wire every download button on the page.
+      document.querySelectorAll('.wp-download').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          openModal(btn.getAttribute('data-pdf'), btn.getAttribute('data-title'), btn);
+        });
+      });
+
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        var email = input.value;
+        var msg = validate(email);
+        if (msg) {
+          errEl.textContent = msg;
+          input.classList.add('invalid');
+          input.focus();
+          return;
+        }
+        if (captchaEnabled() && !captchaToken()) {
+          errEl.textContent = 'Please complete the “I’m human” check below.';
+          return;
+        }
+        errEl.textContent = '';
+        input.classList.remove('invalid');
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Preparing…';
+
+        var pdf = current.pdf;
+        captureLead(current.title).then(function () {
+          resetCaptcha();
+          card.classList.add('done');
+          if (manualLink && pdf) manualLink.setAttribute('href', pdf);
+          if (pdf) startDownload(pdf);
+          setTimeout(closeModal, 2600);
+        });
+      });
+
+      input.addEventListener('input', function () {
+        if (errEl.textContent) { errEl.textContent = ''; input.classList.remove('invalid'); }
+      });
+
+      document.getElementById('wp-modal-close').addEventListener('click', closeModal);
+      overlay.addEventListener('click', function (e) { if (e.target === overlay) closeModal(); });
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && overlay.classList.contains('open')) closeModal();
+      });
+      if (manualLink) manualLink.addEventListener('click', function (e) {
+        e.preventDefault();
+        if (current.pdf) startDownload(current.pdf);
+      });
+    })();
+  </script>
+</body>
+</html>
