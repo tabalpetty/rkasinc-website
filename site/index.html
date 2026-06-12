@@ -250,22 +250,16 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
-    .hero-logo-wrap { display: inline-block; position: relative; margin-bottom: 28px; }
-    .hero-logo-wrap::before {
-      content: '';
-      position: absolute;
-      inset: -30%;
-      background: radial-gradient(circle, var(--orange-glow), transparent 60%);
-      filter: blur(20px);
-      z-index: 0;
-      opacity: 0.55;
-    }
+    .hero-top { display: flex; align-items: center; justify-content: center; gap: 48px; margin-bottom: 28px; }
+    .hero-logo-wrap { display: inline-block; position: relative; }
+    .hero-logo-wrap::before { display: none; }
     .hero-logo {
       position: relative;
       width: 84px; height: 84px;
       object-fit: contain;
       z-index: 1;
-      filter: drop-shadow(0 0 40px var(--orange-glow));
+      filter: none;
+      border-radius: 16px;
     }
 
     .hero-badge {
@@ -273,8 +267,8 @@
       align-items: center;
       gap: 8px;
       font-family: var(--mono);
-      font-size: 11px;
-      font-weight: 600;
+      font-size: 16px;
+      font-weight: 800;
       letter-spacing: 0.14em;
       text-transform: uppercase;
       color: var(--orange-bright);
@@ -282,7 +276,6 @@
       border: 1px solid rgba(232, 137, 44, 0.25);
       padding: 7px 16px;
       border-radius: 999px;
-      margin-bottom: 26px;
     }
 
     .hero h1 {
@@ -994,10 +987,12 @@
   <section class="hero active" data-tab="home">
     <div class="container">
       <div class="hero-inner">
-        <div class="hero-logo-wrap">
-          <img src="assets/logo.jpg" alt="RKAS Inc." class="hero-logo" />
+        <div class="hero-top">
+          <div class="hero-logo-wrap">
+            <img src="assets/logo.jpg" alt="RKAS Inc." class="hero-logo" />
+          </div>
+          <div class="hero-badge">Enterprise AI &amp; Cloud Architecture</div>
         </div>
-        <div class="hero-badge">Enterprise AI &amp; Cloud Architecture</div>
         <h1>Architecting the <span class="accent">AI-Driven Enterprise</span>.</h1>
         <p class="sub">We engineer resilient, scalable cloud foundations and production-grade AI systems for the Fortune 500 — bridging the gap between legacy stability and disruptive innovation, where grounding beats fluency and innovation never outpaces security.</p>
         <div class="hero-actions">
